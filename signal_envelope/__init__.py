@@ -5,7 +5,7 @@ import builtins
 import os
 import sys
 
-def read_wav(path): 
+def read_wav(path):
   """returns signal & fps"""
   wav = wave.open(path , 'r')
   signal = np.frombuffer(wav.readframes(-1) , np.int16).astype(np.double)
@@ -28,7 +28,7 @@ try:
   dir = os.path.dirname(sys.modules["signal_envelope"].__file__)
   path = os.path.join(dir, "envelope.dll")
 except:
-  print("Could not resolve the path to 'envelope.dll'")
+  print("Could not resolve path to 'envelope.dll'")
 
 try:
   lib = ctypes.CDLL(path)
@@ -47,7 +47,7 @@ if cppmode:
   builtins.lib = lib
   from .envelope import get_frontiers_cpp as get_frontiers
 else:
-  print("Running in Python mode (significantly slower)")
+  print("Running in Python mode (Slower)")
   from .envelope import get_frontiers_py as get_frontiers
 
 

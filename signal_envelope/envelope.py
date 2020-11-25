@@ -1,7 +1,7 @@
 ### signal-envelope ###
 
 import numpy as np
-import wave
+# import wave
 import ctypes
 
 
@@ -96,7 +96,6 @@ def _get_frontier(X, Y):
   # print(frontierX.size)
   return frontierX
 
-
 def get_frontiers_py(W):
   "Returns positive and negative frontiers of a signal"
   PosX, PosY, NegX, NegY = _get_pulses(W)
@@ -109,9 +108,6 @@ def get_frontiers_py(W):
 ###############################
 
 def get_frontiers_cpp(W):
-    # lib = ctypes.CDLL(".\DLL.dll")
-
-    # print("P : n in = ", W.size)
 
     lib.compute_raw_envelope(W.ctypes.data_as(ctypes.POINTER(ctypes.c_float)), ctypes.c_size_t(W.size))
 
@@ -127,25 +123,5 @@ def get_frontiers_cpp(W):
     neg_X = lib.get_neg_X()
 
     return pos_X, neg_X
-
-
-# def get_raw_envelope(W):
-#   lib = ctypes.CDLL(".\DLL.dll")
-
-#   # print("P : n in = ", W.size)
-
-#   lib.compute_raw_envelope(W.ctypes.data_as(ctypes.POINTER(ctypes.c_double)), ctypes.c_uint(W.size))
-
-#   pos_n = lib.get_pos_size()
-#   # print("P : pos n = ", pos_n)
-#   neg_n = lib.get_neg_size()
-#   # print("P : neg n = ", neg_n)
-
-#   lib.get_X.restype = np.ctypeslib.ndpointer(dtype=ctypes.c_size_t, shape=(pos_n + neg_n,)) 
-
-#   X = lib.get_X()
-
-#   return X
-
 
 
