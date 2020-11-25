@@ -1,7 +1,7 @@
 import numpy as np
 from signal_envelope import read_wav, get_frontiers
 
-W, _ = read_wav("brass.wav")
+W, _ = read_wav("./test_samples/piano33.wav")
 
 Xpos, Xneg = get_frontiers(W)
 
