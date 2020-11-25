@@ -16,4 +16,3 @@ Xpos_py, Xneg_py = get_frontiers_py(W)
 Xpos_cpp, Xneg_cpp = se.get_frontiers(W)
 
 print(np.allclose(Xpos_py, Xpos_cpp), np.allclose(Xneg_py, Xneg_cpp))
-
