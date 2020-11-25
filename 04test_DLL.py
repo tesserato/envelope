@@ -1,18 +1,18 @@
 import numpy as np
 from signal_envelope import read_wav, get_frontiers
+import plotly.graph_objects as go
 
-W, _ = read_wav("./test_samples/piano33.wav")
+W, _ = read_wav("test_samples/sinusoid.wav")
 
-Xpos, Xneg = get_frontiers(W)
+Xpos, Xneg = get_frontiers(W, 0)
 
-print(Xpos[0 : 10])
+E = get_frontiers(W, 1)
 
 
 '''============================================================================'''
 '''                                    PLOT                                    '''
 '''============================================================================'''
 
-import plotly.graph_objects as go
 fig = go.Figure()
 fig.layout.template ="plotly_white"
 fig.update_layout(
@@ -30,7 +30,7 @@ fig.update_layout(
 fig.add_trace(
   go.Scatter(
     name="Signal",
-    x=np.arange(W.size),
+    # x=np.arange(W.size),
     y=W,
     mode="lines",
     line=dict(color="silver",),
@@ -39,9 +39,9 @@ fig.add_trace(
 
 fig.add_trace(
   go.Scatter(
-    name="+Frontier",
+    name="Positive Frontier",
     x=Xpos,
-    y=np.abs(W[Xpos]),
+    y=W[Xpos],
     mode="lines",
     line=dict(width=1, color="red"),
   )
@@ -49,7 +49,7 @@ fig.add_trace(
 
 fig.add_trace(
   go.Scatter(
-    name="-Frontier",
+    name="Negative Frontier",
     x=Xneg,
     y=W[Xneg],
     mode="lines",
@@ -57,4 +57,13 @@ fig.add_trace(
   )
 )
 
+fig.add_trace(
+  go.Scatter(
+    name="Envelope",
+    x=E,
+    y=np.abs(W[E]),
+    mode="lines",
+    line=dict(width=1, color="blue"),
+  )
+)
 fig.show(config=dict({'scrollZoom': True}))
