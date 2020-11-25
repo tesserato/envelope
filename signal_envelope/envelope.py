@@ -112,32 +112,52 @@ def _get_frontier(X, Y):
   # print(frontierX.size)
   return frontierX
 
-def get_frontiers_py(W):
-  "Returns positive and negative frontiers of a signal"
+def get_frontiers_py(W, mode=0):
+  "If mode == 0: Returns positive and negative indices frontiers of a signal"
+  "If mode == 1: Returns indices of the envelope of a signal"
   PosX, NegX = _get_pulses(W)
-  PosFrontierX = _get_frontier(PosX, W[PosX])
-  NegFrontierX = _get_frontier(NegX, W[NegX])
-  return PosFrontierX, NegFrontierX
+  if PosX.size == 0 or NegX.size == 0:
+    print("Error: nonperiodic signal, no pulses found")
+    return
+  if mode == 0:    
+    PosFrontierX = _get_frontier(PosX, W[PosX])
+    NegFrontierX = _get_frontier(NegX, W[NegX])
+    return PosFrontierX, NegFrontierX
+  else:
+    X = np.unique(np.hstack([PosX, NegX]))
+    FrontierX = _get_frontier(X, W[PosX])
+    return FrontierX
 
 ###############################
 ###  C++ implementation  ######
 ###############################
 
-def get_frontiers_cpp(W):
-
-    lib.compute_raw_envelope(W.ctypes.data_as(ctypes.POINTER(ctypes.c_float)), ctypes.c_size_t(W.size))
-
+def get_frontiers_cpp(W, mode=0):
+  if mode == 0: # Frontiers mode
+    result = lib.compute_raw_envelope(W.ctypes.data_as(ctypes.POINTER(ctypes.c_float)), ctypes.c_size_t(W.size), ctypes.
+    c_size_t(mode))
+    if result == 1:
+      print("Error: nonperiodic signal, no pulses found")
+      return
     pos_n = lib.get_pos_size()
-    # print("P : pos n = ", pos_n)
     neg_n = lib.get_neg_size()
-    # print("P : neg n = ", neg_n)
 
     lib.get_pos_X.restype = np.ctypeslib.ndpointer(dtype=ctypes.c_size_t, shape=(pos_n,))
     lib.get_neg_X.restype = np.ctypeslib.ndpointer(dtype=ctypes.c_size_t, shape=(neg_n,))
 
     pos_X = lib.get_pos_X()
     neg_X = lib.get_neg_X()
+    return np.copy(pos_X), np.copy(neg_X)
 
-    return pos_X, neg_X
+  else:        # Envelope mode
+    result = lib.compute_raw_envelope(W.ctypes.data_as(ctypes.POINTER(ctypes.c_float)), ctypes.c_size_t(W.size), ctypes.c_size_t(mode))
+    if result == 1:
+      print("Error: nonperiodic signal, no pulses found")
+      return
+    pos_n = lib.get_pos_size()
+    lib.get_pos_X.restype = np.ctypeslib.ndpointer(dtype=ctypes.c_size_t, shape=(pos_n,))
+    pos_X = lib.get_pos_X()
+    return np.copy(pos_X)
+
 
 
