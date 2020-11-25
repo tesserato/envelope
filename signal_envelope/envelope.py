@@ -1,7 +1,6 @@
 ### signal-envelope ###
 
 import numpy as np
-# import wave
 import ctypes
 
 
@@ -35,9 +34,9 @@ def _get_pulses(W):
   x0 = x + 1
   sign = np.sign(W[x0])
   posX = []
-  posY = []
+  # posY = []
   negX = []
-  negY = []
+  # negY = []
   for x in range(x0, n):
     if np.sign(W[x]) != sign: # Prospective pulse
       if x - x0 > 2:          # Not noise
@@ -45,22 +44,23 @@ def _get_pulses(W):
         yp = W[xp]
         if np.sign(yp) >= 0:
           posX.append(xp)
-          posY.append(yp)
+          # posY.append(yp)
         else:
           negX.append(xp)
-          negY.append(yp)
+          # negY.append(yp)
       x0 = x
       sign = np.sign(W[x])
-  return np.array(posX), np.array(posY), np.array(negX), np.array(negY)
+  # return np.array(posX), np.array(posY), np.array(negX), np.array(negY)
+  return np.array(posX), np.array(negX)
 
 def _get_radius_average(X, Y):
-  m0 = (Y[-1] - Y[0]) / (X[-1] - X[0])
+  # m0 = (Y[-1] - Y[0]) / (X[-1] - X[0])
   k_sum = 0
-  mm = np.sqrt(m0**2 + 1)                            
+  # mm = np.sqrt(m0**2 + 1)                            
   for i in range(len(X) - 1):
     x = (X[i + 1] - X[i])                            
     y = (Y[i + 1] - Y[i])                            
-    k = -(m0 * x - y) / (x * mm * np.sqrt(x*x + y*y))
+    k = y / (x * np.sqrt(x*x + y*y))
     k_sum += k
   r = np.abs(1 / (k_sum / (len(X) - 1)))
   # print("m0: ", m0, "k: ", k_sum)
@@ -98,9 +98,9 @@ def _get_frontier(X, Y):
 
 def get_frontiers_py(W):
   "Returns positive and negative frontiers of a signal"
-  PosX, PosY, NegX, NegY = _get_pulses(W)
-  PosFrontierX = _get_frontier(PosX, PosY)
-  NegFrontierX = _get_frontier(NegX, NegY)
+  PosX, NegX = _get_pulses(W)
+  PosFrontierX = _get_frontier(PosX, W[PosX])
+  NegFrontierX = _get_frontier(NegX, W[NegX])
   return PosFrontierX, NegFrontierX
 
 ###############################
