@@ -9,7 +9,7 @@ import signal_envelope as se
 
 from envelope import read_wav, get_frontiers_py
 
-W, _ = read_wav("test_samples/brass.wav")
+W, _ = read_wav("test_samples/piano.wav")
 
 Xpos_py, Xneg_py = get_frontiers_py(W, 0)
 
