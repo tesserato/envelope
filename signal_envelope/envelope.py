@@ -125,7 +125,7 @@ def get_frontiers_py(W, mode=0):
     return PosFrontierX, NegFrontierX
   else:
     X = np.unique(np.hstack([PosX, NegX]))
-    FrontierX = _get_frontier(X, W[PosX])
+    FrontierX = _get_frontier(X, np.abs(W[X]))
     return FrontierX
 
 ###############################

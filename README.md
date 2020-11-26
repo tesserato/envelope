@@ -3,6 +3,8 @@ Python module to extract the envelope of signals.
 
 More information in this [paper](https://arxiv.org/abs/2009.02860).
 
+Interactive visualization [here](https://envelope.netlify.app/)
+
 # Functions
 
 This module implements 3 functions:

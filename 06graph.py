@@ -6,7 +6,7 @@ import signal_envelope as se
 from scipy import interpolate
 import plotly.graph_objects as go
 
-name = "brass"
+name = "spoken_voice"
 W, _ = se.read_wav(f"test_samples/{name}.wav")
 amp = np.max(np.abs(W))
 W = 4 * W / amp
@@ -99,4 +99,4 @@ fig.add_trace(
 
 
 fig.write_html(f"site/{name}.html", full_html=False, include_mathjax="cdn", include_plotlyjs="cdn")
-fig.show(config=dict({'scrollZoom': True}))
+# fig.show(config=dict({'scrollZoom': True}))
