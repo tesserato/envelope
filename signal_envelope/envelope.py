@@ -69,48 +69,41 @@ def _get_pulses(W):
   # return np.array(posX), np.array(posY), np.array(negX), np.array(negY)
   return np.array(posX), np.array(negX)
 
-def _get_radius_average(X, Y):
-  # m0 = (Y[-1] - Y[0]) / (X[-1] - X[0])
+def _get_average_radius(X, Y):
   k_sum = 0
-  # mm = np.sqrt(m0**2 + 1)                            
   for i in range(len(X) - 1):
-    x = (X[i + 1] - X[i])                            
-    y = (Y[i + 1] - Y[i])                            
+    x = (X[i + 1] - X[i])
+    y = (Y[i + 1] - Y[i])
     k = y / (x * np.sqrt(x*x + y*y))
     k_sum += k
   r = np.abs(1 / (k_sum / (len(X) - 1)))
-  # print("m0: ", m0, "k: ", k_sum)
   return r
 
-def _get_frontier(X, Y):
+def _get_envelope(X, Y):
   '''extracts the frontier via snowball method'''
   scaling = (np.sum(X[1:] - X[:-1]) / 2) / np.sum(Y)
+  # scaling = ((X[-1] - X[0]) / (2 * (len(X) - 1))) / np.average(Y)
   Y = Y * scaling
   
-  r = _get_radius_average(X, Y)
-  idx1 = 0
-  idx2 = 1
-  frontierX = [X[0]]
-  # frontierY = [Y[0]]
+  r = _get_average_radius(X, Y)
+  id1 = 0
+  id2 = 1
+  envelope_X = [X[0]]
   n = len(X)
-  # print("n: ",n, " r: ", r_of_x(0)," Y0: ", Y[0])
-  while idx2 < n:
-    xc, yc = _get_circle(X[idx1], Y[idx1], X[idx2], Y[idx2], r)
+  while id2 < n:
+    xc, yc = _get_circle(X[id1], Y[id1], X[id2], Y[id2], r)
     empty = True
-    for i in range(idx2 + 1, n):
+    for i in range(id2 + 1, n):
       if np.sqrt((xc - X[i])**2 + (yc - Y[i])**2) < r:
         empty = False
-        idx2 += 1
+        id2 += 1
         break
     if empty:
-      frontierX.append(X[idx2])
-      # frontierY.append(Y[idx2])
-      idx1 = idx2
-      idx2 += 1
-  frontierX = np.array(frontierX)
-  # frontierY = np.array(frontierY) / scaling
-  # print(frontierX.size)
-  return frontierX
+      envelope_X.append(X[id2])
+      id1 = id2
+      id2 += 1
+  envelope_X = np.array(envelope_X)
+  return envelope_X
 
 def get_frontiers_py(W, mode=0):
   "If mode == 0: Returns positive and negative indices frontiers of a signal"
@@ -120,12 +113,12 @@ def get_frontiers_py(W, mode=0):
     print("Error: nonperiodic signal, no pulses found")
     return
   if mode == 0:    
-    PosFrontierX = _get_frontier(PosX, W[PosX])
-    NegFrontierX = _get_frontier(NegX, W[NegX])
+    PosFrontierX = _get_envelope(PosX, W[PosX])
+    NegFrontierX = _get_envelope(NegX, W[NegX])
     return PosFrontierX, NegFrontierX
   else:
     X = np.unique(np.hstack([PosX, NegX]))
-    FrontierX = _get_frontier(X, np.abs(W[X]))
+    FrontierX = _get_envelope(X, np.abs(W[X]))
     return FrontierX
 
 ###############################
