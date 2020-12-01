@@ -67,8 +67,8 @@ h1{
 
 img{
   margin: auto;
-  height: 50%;
-  width: 50%;
+  height: 80%;
+  width: 80%;
   box-shadow: -0.5em 0.5em 1em var(--shadow);
   transition: all .8s ease-in-out;
 }
@@ -76,8 +76,8 @@ img{
 img:hover{
   box-shadow: none;
   filter: sepia(1) blur(0.02em);
-  height: 49.9%;
-  width: 49.9%;
+  height: 79.9%;
+  width: 79.9%;
 }
 
 table{
