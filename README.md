@@ -48,3 +48,10 @@ A number of test wav files can be found at the Github repository for the project
 
 # Source
 The code for this repository (except, for now, the C++ source code of the envelope.dll) is available at [Github](https://github.com/tesserato/envelope).
+
+# Used Libraries
+
+[Libsndfile](http://www.mega-nerd.com/libsndfile/) 
+<!-- ([GNU Lesser General Public License](http://www.gnu.org/licenses/lgpl-3.0.html)) -->
+[Boost](https://www.boost.org/)
+[Intel Math Kernel Library](https://software.intel.com/content/www/us/en/develop/tools/oneapi/components/onemkl.html#gs.9syxj0)

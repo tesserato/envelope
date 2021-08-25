@@ -2,3 +2,4 @@
 dist
 signal_envelope.egg-info
 signal_envelope/__pycache__
+site/comparisons
