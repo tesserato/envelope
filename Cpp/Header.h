@@ -63,18 +63,18 @@ struct pulse {
 	}
 };
 
-struct mode_abdm { // mode & average absolute deviation from mode
-	pint mode;
-	real abdm;
-	mode_abdm() {
-		mode = 0;
-		abdm = 0.0;
-	}
-	mode_abdm(pint m, real a) {
-		mode = m;
-		abdm = a;
-	}
-};
+//struct mode_abdm { // mode & average absolute deviation from mode
+//	pint mode;
+//	real abdm;
+//	mode_abdm() {
+//		mode = 0;
+//		abdm = 0.0;
+//	}
+//	mode_abdm(pint m, real a) {
+//		mode = m;
+//		abdm = a;
+//	}
+//};
 
 class Chronograph {
 private:
@@ -596,147 +596,147 @@ v_pint get_frontier(const v_real& W, const v_pint& X) {
 	return frontierX;
 }
 
-void refine_frontier(std::vector<pulse>& Pulses, const v_pint& Xp, const v_real& W, inte avgL, real stdL, inte n_stds = 3) {
-#ifdef v
-	std::cout << "inside refine_frontier\n";
-#endif
-	std::vector<pulse> Pulses_to_split;
-	std::vector<pulse> Pulses_to_test;
-	v_pint Xzeroes;
-	std::function<inte(const v_real& V, const inte x0, const inte x1)> arg;
-	if (W[Xp[0]] >= 0) {
-		arg = argmax;
-	}
-	else {
-		arg = argmin;
-	}
-	inte currsign, x;
-#ifdef v
-	std::cout << "Refining frontier; TH=" << avgL + n_stds * stdL << "\n";
-#endif
-	for (pint i = 1; i < Xp.size(); i++) {
-		if (Xp[i] - Xp[i - 1] >= avgL + n_stds * stdL) {
-			Pulses_to_split.push_back(pulse(Xp[i - 1], Xp[i]));
-		}
-	}
-	while (Pulses_to_split.size() > 0) {		
-		for (pulse p : Pulses_to_split) {
-			Xzeroes.clear();
-			currsign = sgn(W[p.start]) ;
-			for (pint i = p.start + 1; i < p.end; i++)	{
-				//if (currsign == 0) {
-				//	Xzeroes.push_back(i - 1);
-				//	currsign = sgn(W[i]);
-				//}
-				if (currsign != sgn(W[i])){
-					Xzeroes.push_back(i);
-					currsign = sgn(W[i]);
-				}
-			}
-			if (Xzeroes.size() > 1) {
-				x = arg(W, Xzeroes[0], Xzeroes.back());
-				Pulses_to_test.push_back(pulse(p.start, x));
-				Pulses_to_test.push_back(pulse(x, p.end));
-			}
-		}
-		//std::cout << "Pulses_to_split size:" << Pulses_to_split.size() << "\n";
-		Pulses_to_split.clear();
+//void refine_frontier(std::vector<pulse>& Pulses, const v_pint& Xp, const v_real& W, inte avgL, real stdL, inte n_stds = 3) {
+//#ifdef v
+//	std::cout << "inside refine_frontier\n";
+//#endif
+//	std::vector<pulse> Pulses_to_split;
+//	std::vector<pulse> Pulses_to_test;
+//	v_pint Xzeroes;
+//	std::function<inte(const v_real& V, const inte x0, const inte x1)> arg;
+//	if (W[Xp[0]] >= 0) {
+//		arg = argmax;
+//	}
+//	else {
+//		arg = argmin;
+//	}
+//	inte currsign, x;
+//#ifdef v
+//	std::cout << "Refining frontier; TH=" << avgL + n_stds * stdL << "\n";
+//#endif
+//	for (pint i = 1; i < Xp.size(); i++) {
+//		if (Xp[i] - Xp[i - 1] >= avgL + n_stds * stdL) {
+//			Pulses_to_split.push_back(pulse(Xp[i - 1], Xp[i]));
+//		}
+//	}
+//	while (Pulses_to_split.size() > 0) {		
+//		for (pulse p : Pulses_to_split) {
+//			Xzeroes.clear();
+//			currsign = sgn(W[p.start]) ;
+//			for (pint i = p.start + 1; i < p.end; i++)	{
+//				//if (currsign == 0) {
+//				//	Xzeroes.push_back(i - 1);
+//				//	currsign = sgn(W[i]);
+//				//}
+//				if (currsign != sgn(W[i])){
+//					Xzeroes.push_back(i);
+//					currsign = sgn(W[i]);
+//				}
+//			}
+//			if (Xzeroes.size() > 1) {
+//				x = arg(W, Xzeroes[0], Xzeroes.back());
+//				Pulses_to_test.push_back(pulse(p.start, x));
+//				Pulses_to_test.push_back(pulse(x, p.end));
+//			}
+//		}
+//		//std::cout << "Pulses_to_split size:" << Pulses_to_split.size() << "\n";
+//		Pulses_to_split.clear();
+//
+//
+//		for (pulse p : Pulses_to_test) {
+//			if (p.end - p.start >= avgL + n_stds * stdL) {
+//				Pulses_to_split.push_back(p);
+//			} else {
+//				Pulses.push_back(p);
+//			}
+//		}
+//		//std::cout << "Pulses_to_test size:" << Pulses_to_test.size() << "\n";
+//		Pulses_to_test.clear();
+//	}
+//}
 
+//mode_abdm get_mode_and_abdm(v_pint& T) {
+//	std::sort(T.begin(), T.end());
+//	pint curr_value = T[0];
+//	pint curr_count = 0;
+//	pint max_count = 0;
+//	pint mode = 0;
+//	for (auto t: T) {
+//		if (t == curr_value){
+//			curr_count++;
+//		} 
+//		else {
+//			if (curr_count > max_count) {
+//				max_count = curr_count;
+//				mode = curr_value;
+//			}
+//			curr_value = t;
+//			curr_count = 1;
+//		}
+//	}
+//	if (curr_count > max_count) {
+//		max_count = curr_count;
+//		mode = curr_value;
+//	}
+//	inte abdm{ 0 };
+//	for (auto t : T) {
+//		abdm += std::abs(inte(t) - inte(mode));
+//	}
+//	
+//	return mode_abdm(mode, real(abdm) / real(T.size()));
+//}
 
-		for (pulse p : Pulses_to_test) {
-			if (p.end - p.start >= avgL + n_stds * stdL) {
-				Pulses_to_split.push_back(p);
-			} else {
-				Pulses.push_back(p);
-			}
-		}
-		//std::cout << "Pulses_to_test size:" << Pulses_to_test.size() << "\n";
-		Pulses_to_test.clear();
-	}
-}
-
-mode_abdm get_mode_and_abdm(v_pint& T) {
-	std::sort(T.begin(), T.end());
-	pint curr_value = T[0];
-	pint curr_count = 0;
-	pint max_count = 0;
-	pint mode = 0;
-	for (auto t: T) {
-		if (t == curr_value){
-			curr_count++;
-		} 
-		else {
-			if (curr_count > max_count) {
-				max_count = curr_count;
-				mode = curr_value;
-			}
-			curr_value = t;
-			curr_count = 1;
-		}
-	}
-	if (curr_count > max_count) {
-		max_count = curr_count;
-		mode = curr_value;
-	}
-	inte abdm{ 0 };
-	for (auto t : T) {
-		abdm += std::abs(inte(t) - inte(mode));
-	}
-	
-	return mode_abdm(mode, real(abdm) / real(T.size()));
-}
-
-void refine_frontier_iter(v_pint& Xp, const v_real& W) {
-	v_pint T(Xp.size() - 1);
-	for (pint i = 0; i < Xp.size() - 1; i++)	{
-		T[i] = Xp[i + 1] - Xp[i];
-	}
-
-	mode_abdm modeabdm = get_mode_and_abdm(T);
-	pint mde{ modeabdm.mode };
-	real std{ modeabdm.abdm };
-
-	std::vector<pulse> Pulses;
-	refine_frontier(Pulses, Xp, W, mde, std);
-
-	pint psize{ 0 };
-	real std_c{ 0.0 };
-	while (Pulses.size() > psize) {
-#ifdef v
-		std::cout << "Xp size before:" << Xp.size() << "\n";
-#endif
-		psize = Pulses.size();
-		for (pulse p:Pulses)	{
-			Xp.push_back(p.start);
-			Xp.push_back(p.end);
-		}
-		v_pint::iterator it=std::unique(Xp.begin(), Xp.end());
-		Xp.resize(std::distance(Xp.begin(), it));
-#ifdef v
-		std::cout << "Xp size after:" << Xp.size() << "\n";
-#endif
-		T.resize(Xp.size() - 1);
-		for (pint i = 0; i < Xp.size() - 1; i++) {
-			T[i] = Xp[i + 1] - Xp[i];
-		}
-
-		modeabdm = get_mode_and_abdm(T);
-		mde = modeabdm.mode;
-		std_c = modeabdm.abdm;
-
-		if (std_c < std) {
-			std = std_c;
-			refine_frontier(Pulses, Xp, W, mde, std);
-		}
-		else {
-#ifdef v
-			std::cout << "std0=" << std << " , std1=" << std_c << "\n";
-#endif
-
-			break;
-		}
-	}
-}
+//void refine_frontier_iter(v_pint& Xp, const v_real& W) {
+//	v_pint T(Xp.size() - 1);
+//	for (pint i = 0; i < Xp.size() - 1; i++)	{
+//		T[i] = Xp[i + 1] - Xp[i];
+//	}
+//
+//	mode_abdm modeabdm = get_mode_and_abdm(T);
+//	pint mde{ modeabdm.mode };
+//	real std{ modeabdm.abdm };
+//
+//	std::vector<pulse> Pulses;
+//	refine_frontier(Pulses, Xp, W, mde, std);
+//
+//	pint psize{ 0 };
+//	real std_c{ 0.0 };
+//	while (Pulses.size() > psize) {
+//#ifdef v
+//		std::cout << "Xp size before:" << Xp.size() << "\n";
+//#endif
+//		psize = Pulses.size();
+//		for (pulse p:Pulses)	{
+//			Xp.push_back(p.start);
+//			Xp.push_back(p.end);
+//		}
+//		v_pint::iterator it=std::unique(Xp.begin(), Xp.end());
+//		Xp.resize(std::distance(Xp.begin(), it));
+//#ifdef v
+//		std::cout << "Xp size after:" << Xp.size() << "\n";
+//#endif
+//		T.resize(Xp.size() - 1);
+//		for (pint i = 0; i < Xp.size() - 1; i++) {
+//			T[i] = Xp[i + 1] - Xp[i];
+//		}
+//
+//		modeabdm = get_mode_and_abdm(T);
+//		mde = modeabdm.mode;
+//		std_c = modeabdm.abdm;
+//
+//		if (std_c < std) {
+//			std = std_c;
+//			refine_frontier(Pulses, Xp, W, mde, std);
+//		}
+//		else {
+//#ifdef v
+//			std::cout << "std0=" << std << " , std1=" << std_c << "\n";
+//#endif
+//
+//			break;
+//		}
+//	}
+//}
 
 v_inte get_Xpcs(const v_pint& Xpos, const v_pint& Xneg) {
 	pint min_id{ std::min(Xpos.size(),Xneg.size()) };
@@ -751,71 +751,71 @@ v_inte get_Xpcs(const v_pint& Xpos, const v_pint& Xneg) {
 	return Xpcs;
 }
 
-mode_abdm average_pc_waveform(v_real& pcw,  v_inte& Xp, const v_real& W) {
-#ifdef v
-	std::cout << "average_pc_waveform\n";
-#endif
-	v_pint T(Xp.size() - 1);
-	for (pint i = 0; i < Xp.size() - 1; ++i) {
-		T[i] = Xp[i + 1] - Xp[i];
-	}
-
-	mode_abdm modeabdm = get_mode_and_abdm(T);
-	pint mode{ modeabdm.mode };
-
-	inte x0{ 0 };
-	inte x1{ 0 };
-	real step{ 1.0 / real(mode) };
-	pcw.resize(mode);
-	std::fill(pcw.begin(), pcw.end(), 0.0);
-	real amp;
-	for (pint i = 1; i < Xp.size() - 1; i++) {
-		x0 = 0;
-		if (Xp[i] > 0) {
-			x0 = Xp[i];
-		}
-		x1 = Xp[i + 1];
-
-#ifdef v
-		assert(x1 - x0 > 5);
-#endif
-		if (x1 - x0 > 5) {
-			//amp = std::abs(*std::max_element(W.begin() + x0, W.begin() + x1, abs_compare));
-			boost::math::interpolators::cardinal_cubic_b_spline<real> spline(W.begin() + x0, W.begin() + x1, 0, 1.0 / real(x1 - x0));
-			for (pint j = 0; j < mode; j++) {
-				pcw[j] += spline(j * step);// *amp* amp;
-			}			
-		}
-	}
-	amp = std::abs(*std::max_element(pcw.begin(), pcw.end(), abs_compare));
-	for (pint i = 0; i < mode; i++) {
-		pcw[i] = pcw[i] / amp;
-	}
-
-	pint first{ 0 };
-	//pint last{ 0 };
-	real min_distance{ 2.0 };
-	real distance;
-	for (pint i = 0; i < pcw.size() - 1; i++) {
-		distance = std::abs(pcw[i]) + std::abs(pcw[i + 1]);
-		if (distance < min_distance) {
-			min_distance = distance;
-			first = i + 1;
-		}
-	}
-
-	std::rotate(pcw.begin(), pcw.begin() + first, pcw.end());
-
-	for (pint i = 0; i < Xp.size(); i++) {
-		Xp[i] = Xp[i] + first;
-	}
-
-	while (Xp.back() >= W.size()) {
-		Xp.pop_back();
-	}
-
-	return modeabdm;
-}
+//mode_abdm average_pc_waveform(v_real& pcw,  v_inte& Xp, const v_real& W) {
+//#ifdef v
+//	std::cout << "average_pc_waveform\n";
+//#endif
+//	v_pint T(Xp.size() - 1);
+//	for (pint i = 0; i < Xp.size() - 1; ++i) {
+//		T[i] = Xp[i + 1] - Xp[i];
+//	}
+//
+//	mode_abdm modeabdm = get_mode_and_abdm(T);
+//	pint mode{ modeabdm.mode };
+//
+//	inte x0{ 0 };
+//	inte x1{ 0 };
+//	real step{ 1.0 / real(mode) };
+//	pcw.resize(mode);
+//	std::fill(pcw.begin(), pcw.end(), 0.0);
+//	real amp;
+//	for (pint i = 1; i < Xp.size() - 1; i++) {
+//		x0 = 0;
+//		if (Xp[i] > 0) {
+//			x0 = Xp[i];
+//		}
+//		x1 = Xp[i + 1];
+//
+//#ifdef v
+//		assert(x1 - x0 > 5);
+//#endif
+//		if (x1 - x0 > 5) {
+//			//amp = std::abs(*std::max_element(W.begin() + x0, W.begin() + x1, abs_compare));
+//			boost::math::interpolators::cardinal_cubic_b_spline<real> spline(W.begin() + x0, W.begin() + x1, 0, 1.0 / real(x1 - x0));
+//			for (pint j = 0; j < mode; j++) {
+//				pcw[j] += spline(j * step);// *amp* amp;
+//			}			
+//		}
+//	}
+//	amp = std::abs(*std::max_element(pcw.begin(), pcw.end(), abs_compare));
+//	for (pint i = 0; i < mode; i++) {
+//		pcw[i] = pcw[i] / amp;
+//	}
+//
+//	pint first{ 0 };
+//	//pint last{ 0 };
+//	real min_distance{ 2.0 };
+//	real distance;
+//	for (pint i = 0; i < pcw.size() - 1; i++) {
+//		distance = std::abs(pcw[i]) + std::abs(pcw[i + 1]);
+//		if (distance < min_distance) {
+//			min_distance = distance;
+//			first = i + 1;
+//		}
+//	}
+//
+//	std::rotate(pcw.begin(), pcw.begin() + first, pcw.end());
+//
+//	for (pint i = 0; i < Xp.size(); i++) {
+//		Xp[i] = Xp[i] + first;
+//	}
+//
+//	while (Xp.back() >= W.size()) {
+//		Xp.pop_back();
+//	}
+//
+//	return modeabdm;
+//}
 
 v_inte refine_Xpcs(const v_real& W, const v_real& avgpc, pint min_size, pint max_size) {
 #ifdef v
@@ -897,90 +897,90 @@ real error(const v_real& W1, const v_real& W2) {
 	return err / n;
 }
 
-std::vector<float> fpa_from_FT(std::vector<std::complex<double>>& FT, std::string path = "") {
-	int n = FT.size();
-	int f;
-	float p;
-	float a;
-	float val = 0.0;
-	float max_val = 0.0;
-	if (path == "") {
-		for (std::size_t i = 0; i < n; ++i) {
-			val = std::pow(FT[i].real(), 2.0) + std::pow(FT[i].imag(), 2.0);
-			if (val > max_val) {
-				max_val = val;
-				f = i;
-				p = std::arg(FT[i]);
-				a = std::abs(FT[i]);
-			}
-		}
-	}
-	else {
-		std::ofstream outfile(path);
-		outfile << "Real, Imag\n";
-		for (std::size_t i = 0; i < n; ++i) {
-			outfile << FT[i].real() << "," << FT[i].imag() << "\n";
-			val = std::pow(FT[i].real(), 2.0) + std::pow(FT[i].imag(), 2.0);
-			if (val > max_val) {
-				max_val = val;
-				f = i;
-				p = std::arg(FT[i]);
-				a = std::abs(FT[i]);
-			}
-		}
-		outfile.close();
-		std::cout << "saved FT @" << path << "\n";
-	}
-	std::cout << "f=" << f << ", p=" << p << ", a=" << a << ", n=" << n << "\n";
-	return { float(f), p, a };
-}
-
-std::vector<float> rfft(const v_real& cin) {
-	std::vector<float> in(cin.begin(), cin.end());
-	//std::cout << "rfft";
-	//auto tp = Chronograph();
-	int n = (in.size() + 1) / 2;
-	std::vector<std::complex<float>> out(in.size());
-
-	DFTI_DESCRIPTOR_HANDLE descriptor;
-	MKL_LONG status;
-	// FFT 
-	status = DftiCreateDescriptor(&descriptor, DFTI_SINGLE, DFTI_REAL, 1, in.size());//Specify size and precision
-	status = DftiSetValue(descriptor, DFTI_PLACEMENT, DFTI_NOT_INPLACE);             //Out of place FFT
-	status = DftiCommitDescriptor(descriptor);                                       //Finalize the descriptor
-	status = DftiComputeForward(descriptor, in.data(), out.data());                  //Compute the Forward FFT
-	status = DftiFreeDescriptor(&descriptor);                                        //Free the descriptor
-
-	//for (size_t i = 0; i < n; i++) {
-	//	out[i] = out[i] / double(n);
-	//}
-
-	float val = 0.0;
-	float max_val = 0.0;
-	float f = 0.0;
-	float p = 0.0;
-	float a = 0.0;
-	for (size_t i = 0; i < n; ++i) {
-		out[i] = out[i] / (float)n;
-		val = std::pow(out[i].real(), 2.0) + std::pow(out[i].imag(), 2.0);
-		if (val > max_val) {
-			max_val = val;
-			f = (float)i;
-			p = std::arg(out[i]);
-			a = std::abs(out[i]);
-		}
-	}
-
-	//tp.stop("FFT Time: ");
-	//std::cout << "f=" << f << " p=" << p << " a=" << a <<"\n";
-	//std::cout << "------------";
-	//auto ff = (double)f;
-	std::vector<float> result { f,p,a };
-
-	//std::cout << "f=" << result[0] << " p=" << result[1] << " a=" << result[2] << "\n";
-
-	return result;
-}
+//std::vector<float> fpa_from_FT(std::vector<std::complex<double>>& FT, std::string path = "") {
+//	int n = FT.size();
+//	int f;
+//	float p;
+//	float a;
+//	float val = 0.0;
+//	float max_val = 0.0;
+//	if (path == "") {
+//		for (std::size_t i = 0; i < n; ++i) {
+//			val = std::pow(FT[i].real(), 2.0) + std::pow(FT[i].imag(), 2.0);
+//			if (val > max_val) {
+//				max_val = val;
+//				f = i;
+//				p = std::arg(FT[i]);
+//				a = std::abs(FT[i]);
+//			}
+//		}
+//	}
+//	else {
+//		std::ofstream outfile(path);
+//		outfile << "Real, Imag\n";
+//		for (std::size_t i = 0; i < n; ++i) {
+//			outfile << FT[i].real() << "," << FT[i].imag() << "\n";
+//			val = std::pow(FT[i].real(), 2.0) + std::pow(FT[i].imag(), 2.0);
+//			if (val > max_val) {
+//				max_val = val;
+//				f = i;
+//				p = std::arg(FT[i]);
+//				a = std::abs(FT[i]);
+//			}
+//		}
+//		outfile.close();
+//		std::cout << "saved FT @" << path << "\n";
+//	}
+//	std::cout << "f=" << f << ", p=" << p << ", a=" << a << ", n=" << n << "\n";
+//	return { float(f), p, a };
+//}
+//
+//std::vector<float> rfft(const v_real& cin) {
+//	std::vector<float> in(cin.begin(), cin.end());
+//	//std::cout << "rfft";
+//	//auto tp = Chronograph();
+//	int n = (in.size() + 1) / 2;
+//	std::vector<std::complex<float>> out(in.size());
+//
+//	DFTI_DESCRIPTOR_HANDLE descriptor;
+//	MKL_LONG status;
+//	// FFT 
+//	status = DftiCreateDescriptor(&descriptor, DFTI_SINGLE, DFTI_REAL, 1, in.size());//Specify size and precision
+//	status = DftiSetValue(descriptor, DFTI_PLACEMENT, DFTI_NOT_INPLACE);             //Out of place FFT
+//	status = DftiCommitDescriptor(descriptor);                                       //Finalize the descriptor
+//	status = DftiComputeForward(descriptor, in.data(), out.data());                  //Compute the Forward FFT
+//	status = DftiFreeDescriptor(&descriptor);                                        //Free the descriptor
+//
+//	//for (size_t i = 0; i < n; i++) {
+//	//	out[i] = out[i] / double(n);
+//	//}
+//
+//	float val = 0.0;
+//	float max_val = 0.0;
+//	float f = 0.0;
+//	float p = 0.0;
+//	float a = 0.0;
+//	for (size_t i = 0; i < n; ++i) {
+//		out[i] = out[i] / (float)n;
+//		val = std::pow(out[i].real(), 2.0) + std::pow(out[i].imag(), 2.0);
+//		if (val > max_val) {
+//			max_val = val;
+//			f = (float)i;
+//			p = std::arg(out[i]);
+//			a = std::abs(out[i]);
+//		}
+//	}
+//
+//	//tp.stop("FFT Time: ");
+//	//std::cout << "f=" << f << " p=" << p << " a=" << a <<"\n";
+//	//std::cout << "------------";
+//	//auto ff = (double)f;
+//	std::vector<float> result { f,p,a };
+//
+//	//std::cout << "f=" << result[0] << " p=" << result[1] << " a=" << result[2] << "\n";
+//
+//	return result;
+//}
 
 
 //void make_seamless(v_real& in) {

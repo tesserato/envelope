@@ -13,6 +13,7 @@ def read_wav(path):
 name = "alto"
 
 W, _ = read_wav("test_samples/alto.wav")
+subprocess.call(f"executable/envelope.exe -h")
 subprocess.call(f"executable/envelope.exe test_samples/{name}.wav")
 subprocess.call(f"executable/envelope.exe test_samples/{name}.wav -f")
 
