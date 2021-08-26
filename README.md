@@ -47,7 +47,7 @@ A minimal example would then be:
 A number of test wav files can be found at the Github repository for the project.
 
 # Source
-The code for this repository (except, for now, the C++ source code of the envelope.dll) is available at [Github](https://github.com/tesserato/envelope).
+The code for this repository is available at [Github](https://github.com/tesserato/envelope).
 
 # Used Libraries
 

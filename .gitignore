@@ -3,3 +3,15 @@ dist
 signal_envelope.egg-info
 signal_envelope/__pycache__
 site/comparisons
+0ld
+Cpp/.vs
+Cpp/Configurations/.vs
+Cpp/Configurations
+Cpp/DLL/Release/DLL.tlog
+Cpp/DLL/x64/Release/DLL.tlog
+Cpp/DLL/Release
+Cpp/Execs/.vscode
+Cpp/Execs
+Cpp/Intermediary
+Cpp/DLL/x64/Release
+test_samples/*.csv

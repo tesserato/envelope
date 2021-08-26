@@ -1,12 +1,24 @@
 import numpy as np
-from signal_envelope import read_wav, get_frontiers
 import plotly.graph_objects as go
+import subprocess
+import wave
 
-W, _ = read_wav("test_samples/sinusoid.wav")
+def read_wav(path):
+  """returns signal & fps"""
+  wav = wave.open(path , 'r')
+  signal = np.frombuffer(wav.readframes(-1) , np.int16).astype(np.double)
+  fps = wav.getframerate()
+  return signal, fps
 
-Xpos, Xneg = get_frontiers(W, 0)
+name = "alto"
 
-E = get_frontiers(W, 1)
+W, _ = read_wav("test_samples/alto.wav")
+subprocess.call(f"executable/envelope.exe test_samples/{name}.wav")
+subprocess.call(f"executable/envelope.exe test_samples/{name}.wav -f")
+
+E = np.genfromtxt(f"test_samples/{name}_E.csv", delimiter=",", dtype=int)
+P = np.genfromtxt(f"test_samples/{name}_P.csv", delimiter=",", dtype=int)
+N = np.genfromtxt(f"test_samples/{name}_N.csv", delimiter=",", dtype=int)
 
 
 '''============================================================================'''
@@ -40,8 +52,8 @@ fig.add_trace(
 fig.add_trace(
   go.Scatter(
     name="Positive Frontier",
-    x=Xpos,
-    y=W[Xpos],
+    x=P,
+    y=W[P],
     mode="lines",
     line=dict(width=1, color="red"),
   )
@@ -50,8 +62,8 @@ fig.add_trace(
 fig.add_trace(
   go.Scatter(
     name="Negative Frontier",
-    x=Xneg,
-    y=W[Xneg],
+    x=N,
+    y=W[N],
     mode="lines",
     line=dict(width=1, color="red"),
   )
@@ -66,4 +78,5 @@ fig.add_trace(
     line=dict(width=1, color="blue"),
   )
 )
+
 fig.show(config=dict({'scrollZoom': True}))
