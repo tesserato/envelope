@@ -15,3 +15,5 @@ Cpp/Execs
 Cpp/Intermediary
 Cpp/DLL/x64/Release
 test_samples/*.csv
+0testenv
+executable.zip

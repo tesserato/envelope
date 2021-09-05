@@ -5,13 +5,13 @@ from setuptools import setup
 HERE = pathlib.Path(__file__).parent
 
 # The text of the README file
-README = (HERE / "README.md").read_text()
+README = (HERE / "README_pypi.md").read_text()
 
 # This call to setup() does all the work
 setup(
     name="signal-envelope",
-    version="0.1.4",
-    description="Extract the envelope of a digital signal",
+    version="1.2",
+    description="Extracts the temporal envelope of a digital signal",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/tesserato/envelope",
@@ -21,7 +21,6 @@ setup(
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
     ],
     packages=["signal_envelope"],
     include_package_data=True,
