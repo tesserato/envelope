@@ -191,10 +191,7 @@ point get_circle(
 }
 
 
-
-
-
-
+/** Given a vector, returns the indices of the positive and negative pulses. **/
 void get_pulses(const v_real& W, v_pint& posX, v_pint& negX) {
 	pint n{ W.size() };
 	inte sign{ sgn(W[0]) };

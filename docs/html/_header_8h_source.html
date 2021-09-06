@@ -232,7 +232,7 @@ $(document).ready(function(){initNavTree('_header_8h_source.html',''); initResiz
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;};</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">  167</a></span>&#160;<a class="code" href="structpoint.html">point</a>  <a class="code" href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">get_circle</a>(</div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">  167</a></span>&#160;<a class="code" href="structpoint.html">point</a> <a class="code" href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">get_circle</a>(</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> x0 ,</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> y0 ,</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> x1 ,</div>
@@ -259,91 +259,88 @@ $(document).ready(function(){initNavTree('_header_8h_source.html',''); initResiz
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="keywordtype">void</span> get_pulses(<span class="keyword">const</span> <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a>&amp; W, <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a>&amp; posX, <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a>&amp; negX) {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> n{ W.size() };</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> sign{ <a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[0]) };</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> i0{ 0 };</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> im{ 0 };</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    posX.clear();</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    negX.clear();</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 1; i &lt; W.size(); i++) {</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[i]) != sign) {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            sign = <a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[i]);</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            <span class="keywordflow">if</span> (i - i0 &gt; 4) {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                im = <a class="code" href="_header_8h.html#a65fd7dc2c026fcccef6017a9ade0eba4">argabsmax</a>(W, i0, i);</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                i0 = i;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[im]) &gt;= 0) {</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                    posX.push_back(im);</div>
+<div class="line"><a name="l00195"></a><span class="lineno"><a class="line" href="_header_8h.html#a70fcf073c9feffcaad548e11d9f69556">  195</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="_header_8h.html#a70fcf073c9feffcaad548e11d9f69556">get_pulses</a>(<span class="keyword">const</span> <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a>&amp; W, <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a>&amp; posX, <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a>&amp; negX) {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> n{ W.size() };</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> sign{ <a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[0]) };</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> i0{ 0 };</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> im{ 0 };</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    posX.clear();</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    negX.clear();</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 1; i &lt; W.size(); i++) {</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[i]) != sign) {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            sign = <a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[i]);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            <span class="keywordflow">if</span> (i - i0 &gt; 4) {</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                im = <a class="code" href="_header_8h.html#a65fd7dc2c026fcccef6017a9ade0eba4">argabsmax</a>(W, i0, i);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                i0 = i;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[im]) &gt;= 0) {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    posX.push_back(im);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                }</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                    negX.push_back(im);</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                }</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                    negX.push_back(im);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                }</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            }</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        }</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    }   <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;}</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a> get_frontier(<span class="keyword">const</span> <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a>&amp; W, <span class="keyword">const</span> <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a>&amp; X) {</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> n{ X.size() };</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> sumY{ 0.0 };</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> sumY_vec{ W[X[n-1]] - W[X[0]] };</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> sumX_vec{ X[n-1] - X[0] };</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        sumY += W[X[i]];</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    }</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> scaling{ (sumX_vec / 2.0) / sumY };</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> sumk{ 0.0 };</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> x;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> y;</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a> Y(n);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    Y[0] = W[X[0]] * scaling;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 1; i &lt; n; i++) {</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        Y[i] = W[X[i]] * scaling;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        x = X[i] - X[i - 1];</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        y = Y[i] - Y[i - 1];</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        sumk += y / (x * sqrt(x * x + y * y));</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    }</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> r{ 1.0 / (sumk / (n - 1)) };</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> rr{ r * r };</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> idx1{ 0 };</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> idx2{ 1 };</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a> frontierX = { X[0] };</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <a class="code" href="structpoint.html">point</a> pc;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordtype">bool</span> empty;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordflow">while</span> (idx2 &lt; n) {</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        pc = <a class="code" href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">get_circle</a>(X[idx1], Y[idx1], X[idx2], Y[idx2], r);</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        empty = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = idx2 + 1; i &lt; n; i++) {</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <span class="keywordflow">if</span> (pow(pc.<a class="code" href="structpoint.html#a09a1cd2a5685e11a1afe789034b1e7ce">x</a> - X[i], 2.0) + pow(pc.<a class="code" href="structpoint.html#af0aeda495b0d365bb5cda1c50c469dbc">y</a> - Y[i], 2.0) &lt; rr) {</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                empty = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                idx2 ++;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            }</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        }</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <span class="keywordflow">if</span> (empty) {</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            frontierX.push_back(X[idx2]);</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            idx1 = idx2;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            idx2 ++;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        }</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    }</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keywordflow">return</span> frontierX;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;}</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        }</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    }   <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;}</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a> get_frontier(<span class="keyword">const</span> <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a>&amp; W, <span class="keyword">const</span> <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a>&amp; X) {</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> n{ X.size() };</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> sumY{ 0.0 };</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> sumY_vec{ W[X[n-1]] - W[X[0]] };</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> sumX_vec{ X[n-1] - X[0] };</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 0; i &lt; n; i++) {</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        sumY += W[X[i]];</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    }</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> scaling{ (sumX_vec / 2.0) / sumY };</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> sumk{ 0.0 };</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> x;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> y;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a> Y(n);</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    Y[0] = W[X[0]] * scaling;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 1; i &lt; n; i++) {</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        Y[i] = W[X[i]] * scaling;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        x = X[i] - X[i - 1];</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        y = Y[i] - Y[i - 1];</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        sumk += y / (x * sqrt(x * x + y * y));</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    }</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> r{ 1.0 / (sumk / (n - 1)) };</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> rr{ r * r };</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> idx1{ 0 };</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> idx2{ 1 };</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a> frontierX = { X[0] };</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <a class="code" href="structpoint.html">point</a> pc;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordtype">bool</span> empty;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordflow">while</span> (idx2 &lt; n) {</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        pc = <a class="code" href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">get_circle</a>(X[idx1], Y[idx1], X[idx2], Y[idx2], r);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        empty = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = idx2 + 1; i &lt; n; i++) {</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            <span class="keywordflow">if</span> (pow(pc.<a class="code" href="structpoint.html#a09a1cd2a5685e11a1afe789034b1e7ce">x</a> - X[i], 2.0) + pow(pc.<a class="code" href="structpoint.html#af0aeda495b0d365bb5cda1c50c469dbc">y</a> - Y[i], 2.0) &lt; rr) {</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                empty = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                idx2 ++;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            }</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        }</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="keywordflow">if</span> (empty) {</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            frontierX.push_back(X[idx2]);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            idx1 = idx2;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            idx2 ++;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    }</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordflow">return</span> frontierX;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;}</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
 <div class="ttc" id="a_header_8h_html_a11d147c64891830c9e79b3315b1b2e21"><div class="ttname"><a href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a></div><div class="ttdeci">double real</div><div class="ttdoc">A real number.</div><div class="ttdef"><b>Definition:</b> Header.h:26</div></div>
 <div class="ttc" id="a_header_8h_html_a209911f99b130b2d42ba33449a426ae1"><div class="ttname"><a href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a></div><div class="ttdeci">long long inte</div><div class="ttdoc">An integer.</div><div class="ttdef"><b>Definition:</b> Header.h:25</div></div>
 <div class="ttc" id="a_header_8h_html_a26a81bc986bf77da68ee2f6f1cde7f5d"><div class="ttname"><a href="_header_8h.html#a26a81bc986bf77da68ee2f6f1cde7f5d">v_inte</a></div><div class="ttdeci">std::vector&lt; inte &gt; v_inte</div><div class="ttdoc">A vector of integers.</div><div class="ttdef"><b>Definition:</b> Header.h:28</div></div>
 <div class="ttc" id="a_header_8h_html_a65fd7dc2c026fcccef6017a9ade0eba4"><div class="ttname"><a href="_header_8h.html#a65fd7dc2c026fcccef6017a9ade0eba4">argabsmax</a></div><div class="ttdeci">inte argabsmax(const std::vector&lt; T &gt; &amp;V, const inte x0, const inte x1)</div><div class="ttdoc">Given a vector, returns the index of its maximum absolute value between two indices.</div><div class="ttdef"><b>Definition:</b> Header.h:53</div></div>
+<div class="ttc" id="a_header_8h_html_a70fcf073c9feffcaad548e11d9f69556"><div class="ttname"><a href="_header_8h.html#a70fcf073c9feffcaad548e11d9f69556">get_pulses</a></div><div class="ttdeci">void get_pulses(const v_real &amp;W, v_pint &amp;posX, v_pint &amp;negX)</div><div class="ttdoc">Given a vector, returns the indices of the positive and negative pulses.</div><div class="ttdef"><b>Definition:</b> Header.h:195</div></div>
 <div class="ttc" id="a_header_8h_html_ab054962df1e562f0f5f04a297a7f0f8a"><div class="ttname"><a href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a></div><div class="ttdeci">inte sgn(T val)</div><div class="ttdoc">Returns the sign of a number.</div><div class="ttdef"><b>Definition:</b> Header.h:48</div></div>
 <div class="ttc" id="a_header_8h_html_abace61a8f9b56aa0e3cae388a288476b"><div class="ttname"><a href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">get_circle</a></div><div class="ttdeci">point get_circle(real x0, real y0, real x1, real y1, real r)</div><div class="ttdoc">Given the coordinates of two points and a radius, returns the center of the circle that passes throug...</div><div class="ttdef"><b>Definition:</b> Header.h:167</div></div>
 <div class="ttc" id="a_header_8h_html_ac44c474f06f78cb92f7b9f488fd863e9"><div class="ttname"><a href="_header_8h.html#ac44c474f06f78cb92f7b9f488fd863e9">read_wav</a></div><div class="ttdeci">Wav read_wav(std::string path)</div><div class="ttdoc">Reads a mono WAV file from disk, returning a Wav object.</div><div class="ttdef"><b>Definition:</b> Header.h:135</div></div>
