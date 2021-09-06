@@ -1,10 +1,9 @@
-// dllmain.cpp : Defines the entry point for the DLL application.
-
+/** @file
+This file builds the DLL used in the Python module.
+*/
 #include "pch.h"
 #include "Header.h"
 
-
-// Python Interface
 
 extern "C" __declspec(dllexport) int test(int p) {
 	return p;
@@ -19,7 +18,7 @@ extern "C" __declspec(dllexport) int compute_raw_envelope(double* cW, unsigned i
 	std::vector<size_t> posX, negX;
 	get_pulses(W, posX, negX);
 	if (posX.size() == 0 || negX.size() == 0) {
-		return 1;    // no pulses found
+		return 1;    // No pulses found
 	}
 
 	if (mode == 0) { // Frontiers mode
@@ -57,8 +56,3 @@ extern "C" __declspec(dllexport) size_t * get_neg_X() {
 	size_t* ptr = &negF[0];
 	return ptr;
 }
-
-//extern "C" __declspec(dllexport) size_t * get_X() {
-//	size_t* ptr = &F[0];
-//	return ptr;
-//}

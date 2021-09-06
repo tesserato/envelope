@@ -1,4 +1,7 @@
-﻿#include "Header.h"
+﻿/** @file
+This file builds the command line application.
+*/
+#include "Header.h"
 #include <filesystem>
 
 #define t // for time
