@@ -166,8 +166,13 @@ point get_circle(
 }
 
 
-/** Given a vector, returns the indices of the positive and negative pulses. **/
-void get_pulses(const v_real& W, v_pint& posX, v_pint& negX) {
+/** Given a vector, returns the indices of the absolute maximum values of the positive and negative pulses. **/
+void get_pulses(
+	const v_real& W /** Vector representing the signal. **/	,
+	v_pint& posX /** Vector to be filled with the positive indices. **/,
+	v_pint& negX /** Vector to be filled with the negative indices. **/
+) 
+{
 	pint n{ W.size() };
 	inte sign{ sgn(W[0]) };
 	inte i0{ 0 };
@@ -191,7 +196,12 @@ void get_pulses(const v_real& W, v_pint& posX, v_pint& negX) {
 	}	return;
 }
 
-v_pint get_frontier(const v_real& W, const v_pint& X) {
+/** Given a vector representing the signal and a vector of the indices of its positive or negative pulses, returns the corresponding frontier. **/
+v_pint get_frontier(
+	const v_real& W /** Vector representing the signal. **/,
+	const v_pint& X /** Vector of positive or negative pulses indices. **/
+) 
+{
 	pint n{ X.size() };
 	real sumY{ 0.0 };
 	real sumY_vec{ W[X[n-1]] - W[X[0]] };
@@ -237,7 +247,7 @@ v_pint get_frontier(const v_real& W, const v_pint& X) {
 			idx2 ++;
 		}
 	}
-	return frontierX;
+	return frontierX /** Vector of positive or negative frontier indices. **/;
 }
 
 
