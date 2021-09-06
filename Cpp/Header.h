@@ -1,7 +1,7 @@
 /** @file 
 This file contains the declarations and definitions used both in the command line application and the DLL used in the Python module.
 Templates are used whenever possible, to streamline the code.
-*/
+**/
 #pragma once
 #include <stdexcept>
 #include <iostream>

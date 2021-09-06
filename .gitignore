@@ -17,3 +17,6 @@ Cpp/DLL/x64/Release
 test_samples/*.csv
 0testenv
 executable.zip
+executable/envelope.exe
+signal_envelope/envelope.dll
+release.zip

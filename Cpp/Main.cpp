@@ -1,11 +1,12 @@
 ﻿/** @file
 This file builds the command line application.
-*/
+**/
 #include "Header.h"
 #include <filesystem>
 
 #define t // for time
 
+/** Checks if a string ends with another string. **/
 inline bool ends_with(std::string const& value, std::string const& ending) {
 	if (ending.size() > value.size()) return false;
 	return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
