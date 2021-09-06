@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['v_5finte_13',['v_inte',['../_header_8h.html#a26a81bc986bf77da68ee2f6f1cde7f5d',1,'Header.h']]],
-  ['v_5fpint_14',['v_pint',['../_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5',1,'Header.h']]],
-  ['v_5freal_15',['v_real',['../_header_8h.html#ae2def07779b3bbe9faf8b475157494a8',1,'Header.h']]]
+  ['wav_13',['Wav',['../class_wav.html',1,'Wav'],['../class_wav.html#abf44c0bdf81fa61c59c69eedb7e3541e',1,'Wav::Wav(v_real W_, pint fps_=44100)']]],
+  ['write_14',['write',['../class_wav.html#a9e85af7a7ae05f34c87c811869d0ee3d',1,'Wav']]],
+  ['write_5fvector_15',['write_vector',['../_header_8h.html#aefae22756f099085ff43e88e9585f895',1,'Header.h']]]
 ];

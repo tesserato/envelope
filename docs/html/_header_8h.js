@@ -1,7 +1,6 @@
 var _header_8h =
 [
     [ "point", "structpoint.html", "structpoint" ],
-    [ "pulse", "structpulse.html", "structpulse" ],
     [ "Wav", "class_wav.html", "class_wav" ],
     [ "inte", "_header_8h.html#a209911f99b130b2d42ba33449a426ae1", null ],
     [ "pint", "_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9", null ],

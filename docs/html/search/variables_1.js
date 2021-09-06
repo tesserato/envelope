@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['start_35',['start',['../structpulse.html#a24991f58585972c387cdc1c8836cdebe',1,'pulse']]]
+  ['y_30',['y',['../structpoint.html#af0aeda495b0d365bb5cda1c50c469dbc',1,'point']]]
 ];

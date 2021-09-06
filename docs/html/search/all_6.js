@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['read_5fwav_9',['read_wav',['../_header_8h.html#ac44c474f06f78cb92f7b9f488fd863e9',1,'Header.h']]],
-  ['real_10',['real',['../_header_8h.html#a11d147c64891830c9e79b3315b1b2e21',1,'Header.h']]]
+  ['sgn_9',['sgn',['../_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a',1,'Header.h']]]
 ];

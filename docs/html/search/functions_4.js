@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['sgn_30',['sgn',['../_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a',1,'Header.h']]]
+  ['wav_26',['Wav',['../class_wav.html#abf44c0bdf81fa61c59c69eedb7e3541e',1,'Wav']]],
+  ['write_27',['write',['../class_wav.html#a9e85af7a7ae05f34c87c811869d0ee3d',1,'Wav']]],
+  ['write_5fvector_28',['write_vector',['../_header_8h.html#aefae22756f099085ff43e88e9585f895',1,'Header.h']]]
 ];

@@ -74,31 +74,6 @@ struct point {
 };
 
 
-/** Represents the start and end indices of a pulse in a signal. 
-* A pulse is a region of the signal with the maximum number of samples with the same sign.
-* Since start and end are indices, the constructor emits a warning if they are negative.
-**/
-struct pulse {
-	pint start /** Index where the pulse starts **/;
-	pint end /** Index where the pulse ends **/;
-	/** Constructor **/
-	pulse(
-		inte s /** Index where the pulse starts. Should be nonnegative. **/, 
-		inte e /** Index where the pulse ends. Should be nonnegative. **/
-	) 
-	{
-		if (s < 0) {
-			std::cout << "negative start for Pulse\n";
-		}
-		if (e < 0) {
-			std::cout << "negative end for Pulse\n";
-		}
-		start = s;
-		end = e;
-	}
-};
-
-
 /** This class represents a mono WAV file. **/
 class Wav {
 public:
