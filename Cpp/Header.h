@@ -1,3 +1,8 @@
+/** @file 
+This file contains the declarations and definitions used both in the command line application and the DLL used in the Python module.
+Templates are used whenever possible, to streamline the code.
+*/
+
 #pragma once
 #include <stdexcept>
 #include <iostream>
@@ -7,25 +12,29 @@
 #include <chrono> 
 #include <fstream>
 #include <algorithm>
-#include <sndfile.hh> // Wav in and out
-#include "mkl_dfti.h" // Intel MKL
 #include <tuple>
 #include <boost/math/interpolators/cardinal_cubic_b_spline.hpp>
-#include <filesystem> // to list all files in a directory
+#include <filesystem>
+/** \file sndfile.hh wav in and out, used to read wav files  **/
+#include <sndfile.hh>
+/** \file mkl_dfti.h Intel MKL, used in the Fourier Transform **/
+#include "mkl_dfti.h" 
 
 
-typedef unsigned long long pint;
-typedef long long          inte;
-typedef double             real;
+typedef unsigned long long pint  /** A positive integer **/;
+typedef long long          inte  /** An integer **/;
+typedef double             real  /** A real number **/;
+typedef std::vector<pint> v_pint /** A vector of positive integers **/;
+typedef std::vector<inte> v_inte /** A vector of integers **/;
+typedef std::vector<real> v_real /** A vector of real numbers **/;
 
-typedef std::vector<pint> v_pint;
-typedef std::vector<inte> v_inte;
-typedef std::vector<real> v_real;
 
-
-const real PI = 3.14159265358979323846;
-
-template <typename T> void write_vector(const std::vector<T>& V, std::string path = "teste.csv") {
+/** Writes a vector to disk as a CSV file. **/
+template <typename T> void write_vector(
+	const std::vector<T>& V /** Vector to be written. type T must be compatible with "<<" operator */, 
+	std::string path = "test.csv" /** Path to save the CSV file. Defaults to "test.csv" */
+) 
+{
 	std::ofstream out(path);
 	for (pint i = 0; i < V.size() - 1; ++i) {
 		out << V[i] << ",";
@@ -34,19 +43,50 @@ template <typename T> void write_vector(const std::vector<T>& V, std::string pat
 	out.close();
 }
 
-static bool abs_compare(real a, real b) {
-	return (std::abs(a) < std::abs(b));
+
+/** Returns the sign of a number **/
+template <typename T> inte sgn(T val /** A number (float, double, int, etc) **/) {
+	return (T(0) < val) - (val < T(0))/** -1, 0 or 1, representing the sign **/;
 }
 
+/** Given a vector, returns the index of its maximum absolute value between two indices **/
+template <typename T> inte argabsmax(
+	const std::vector<T>& V /** Vector of numbers. **/,
+	const inte x0 /** Initial index **/,
+	const inte x1 /** Final index **/
+) 
+{
+	real max{ std::abs(V[x0]) };
+	inte idx = x0;
+	for (pint i = x0; i < x1; i++) {
+		if (std::abs(V[i]) > max) {
+			max = std::abs(V[i]);
+			idx = i;
+		}
+	}
+	return idx /** x0 <= idx < x1, index of the maximum absolute value of vector V between x0 and x1. **/;
+}
+
+/** Simple struct to represent the x and y coordinates of a point. **/
 struct point {
-	real x;
-	real y;
+	real x /** x coordinate */;
+	real y /** y coordinate */;
 };
 
+
+/** Represents the start and end indices of a pulse in a signal. 
+* A pulse is a region of the signal with the maximum number of samples with the same sign.
+* Since start and end are indices, the constructor emits a warning if they are negative.
+**/
 struct pulse {
-	pint start;
-	pint end;
-	pulse(inte s, inte e) {
+	pint start /** Index where the pulse starts **/;
+	pint end /** Index where the pulse ends **/;
+	/** Constructor **/
+	pulse(
+		inte s /** Index where the pulse starts. Should be nonnegative. **/, 
+		inte e /** Index where the pulse ends. Should be nonnegative. **/
+	) 
+	{
 		if (s < 0) {
 			std::cout << "negative start for Pulse\n";
 		}
@@ -58,17 +98,21 @@ struct pulse {
 	}
 };
 
+
+/** This class represents a mono WAV file. **/
 class Wav {
 public:
 	pint fps;
 	v_real W;
-
-	Wav(v_real W_, pint fps_=44100) {
-		fps = fps_;
-		W = W_;
+	/** Constructor to manually create a WAV file. **/
+	Wav(v_real W_ /** Vector of real values between -1.0 and 1.0 representing the samples. */,
+		pint fps_=44100 /** Sampling rate, in frames per second. Defaults to 44100 */) {
+		fps = fps_ ;
+		W = W_ ;
 		std::cout << "New wave with n=" << W.size() << " and fps=" << fps << "\n";
 	}
-	void write(std::string path = "test.wav") {
+	/** Writes the Wav object to disk, as a mono WAV file. **/
+	void write(std::string path = "test.wav" /** Path to save the WAV file. Defaults to "test.wav" */) {
 		if (W.size() == 0) {
 			std::cout << "size = 0";
 			return;
@@ -87,67 +131,8 @@ public:
 };
 
 
-
-void smooth_XPCs(v_inte& Xp) {
-
-	v_real T(Xp.size() - 1);
-	for (pint i = 0; i < Xp.size() - 1; i++) {
-		T[i] = Xp[i + 1] - Xp[i];
-	}
-
-
-	/* Configure a Descriptor */
-	std::vector<std::complex<double>> out(T.size() / 2 + 1);
-
-	//write_vector(in, "00before.csv");
-	DFTI_DESCRIPTOR_HANDLE hand;
-	MKL_LONG status;
-	status = DftiCreateDescriptor(&hand, DFTI_DOUBLE, DFTI_REAL, 1, T.size());
-	status = DftiSetValue(hand, DFTI_PLACEMENT, DFTI_NOT_INPLACE);
-	status = DftiSetValue(hand, DFTI_CONJUGATE_EVEN_STORAGE, DFTI_COMPLEX_COMPLEX);
-	status = DftiSetValue(hand, DFTI_BACKWARD_SCALE, 1.0f / T.size());
-	//status = DftiSetValue(hand, DFTI_PACKED_FORMAT, DFTI_CCE_FORMAT);
-
-	//status = DftiSetValue(hand, DFTI_INPUT_STRIDES, <real_strides>);
-	//status = DftiSetValue(hand, DFTI_OUTPUT_STRIDES,<complex_strides>);
-	status = DftiCommitDescriptor(hand);
-	/* Compute an FFT */
-	status = DftiComputeForward(hand, T.data(), out.data());
-
-	float avg{ 0.0 };
-	for (size_t i = 0; i < out.size(); i++) {
-		avg += std::abs(out[i]);
-	}
-
-	avg = avg / out.size();
-
-	float dev{ 0.0 };
-	for (size_t i = 0; i < out.size(); i++) {
-		dev += std::abs(std::abs(out[i]) - avg);
-	}
-
-	dev = dev / out.size();
-
-
-	for (size_t i = 0; i < out.size(); i++) {
-		if (std::abs(out[i]) <= avg) {
-			out[i] = { 0.0,0.0 };
-		}
-	}
-
-	/* Compute an inverse FFT */
-	//std::fill(in.begin(), in.end(), 0.0);
-	status = DftiComputeBackward(hand, out.data(), T.data());
-	DftiFreeDescriptor(&hand);
-	//write_vector(in, "01after.csv");
-
-	for (pint i = 0; i < Xp.size() - 1; i++) {
-		Xp[i + 1] = Xp[i] + std::round(T[i]);
-	}
-}
-
-
-Wav read_wav(std::string path) {
+/** Reads a mono WAV file from disk, returning a Wav object. **/
+Wav read_wav(std::string path /** Path to file. **/) {
 	const char* fname = path.c_str();
 	SF_INFO sfinfo;
 	sfinfo.format = 0;
@@ -174,10 +159,19 @@ Wav read_wav(std::string path) {
 
 	v_real W(n);
 	file.read(&W[0], n);
-	return Wav(W, fps);
+	return Wav(W, fps) /** Returns a Wav object **/;
 };
 
-point get_circle(real x0, real y0, real x1, real y1, real r) {
+
+/** Given the coordinates of two points and a radius, returns the center of the circle that passes through the points and possesses the given radius.**/
+point get_circle(
+	real x0 /** x coordinate of the first point **/,
+	real y0 /** y coordinate of the first point **/,
+	real x1 /** x coordinate of the second point **/,
+	real y1 /** y coordinate of the second point **/,
+	real r /** radius of the circle **/
+) 
+{
 	real q{ sqrt(pow(x1 - x0, 2.0) + pow(y1 - y0, 2.0)) };
 	real c{ sqrt(r * r - pow(q / 2.0, 2.0)) };
 
@@ -193,61 +187,13 @@ point get_circle(real x0, real y0, real x1, real y1, real r) {
 		xc = x3 - c * (y0 - y1) / q;
 		yc = y3 - c * (x1 - x0) / q;
 	}
-	return { xc, yc };
+	return { xc, yc } /** Returns a point representing the center of the circle. **/;
 }
 
-template <typename T> inte sgn(T val) {
-	return (T(0) < val) - (val < T(0));
-}
 
-inte argabsmax(const v_real& V, const inte x0, const inte x1) {
-	real max{ std::abs(V[x0]) };
-	inte idx = x0;
-	for (pint i = x0; i < x1; i++) {
-		if (std::abs(V[i]) > max) {
-			max = std::abs(V[i]);
-			idx = i;
-		}
-	}
-	return idx;
-}
 
-inte argmax(const v_real& V, const inte x0, const inte x1) {
-	real max{ std::abs(V[x0]) };
-	inte idx = x0;
-	for (pint i = x0; i <= x1; i++) {
-		if (V[i] > max) {
-			max = V[i];
-			idx = i;
-		}
-	}
-	return idx;
-}
 
-inte argmin(const v_real& V, const inte x0, const inte x1) {
-	real min{ std::abs(V[x0]) };
-	inte idx = x0;
-	for (pint i = x0; i <= x1; i++) {
-		if (V[i] < min) {
-			min = V[i];
-			idx = i;
-		}
-	}
-	return idx;
-}
 
-v_pint find_zeroes(const v_real& W) {
-	inte sign{ sgn(W[0]) };
-	v_pint id_of_zeroes;
-
-	for (pint i = 0; i < W.size(); i++) {
-		if (sgn(W[i]) != sign) {
-			id_of_zeroes.push_back(i);
-			sign = sgn(W[i]);
-		}
-	}
-	return id_of_zeroes;
-}
 
 void get_pulses(const v_real& W, v_pint& posX, v_pint& negX) {
 	pint n{ W.size() };
@@ -274,9 +220,6 @@ void get_pulses(const v_real& W, v_pint& posX, v_pint& negX) {
 }
 
 v_pint get_frontier(const v_real& W, const v_pint& X) {
-#ifdef v
-	std::cout << "inside get_frontier\n";
-#endif
 	pint n{ X.size() };
 	real sumY{ 0.0 };
 	real sumY_vec{ W[X[n-1]] - W[X[0]] };
@@ -325,98 +268,7 @@ v_pint get_frontier(const v_real& W, const v_pint& X) {
 	return frontierX;
 }
 
-v_inte get_Xpcs(const v_pint& Xpos, const v_pint& Xneg) {
-	pint min_id{ std::min(Xpos.size(),Xneg.size()) };
-	v_inte Xpcs(min_id);
-	for (pint i = 0; i < min_id; i++)	{
-		Xpcs[i] = std::round((real(Xpos[i]) + real(Xneg[i])) / 2);
-	}
-	v_inte::iterator it = std::unique(Xpcs.begin(), Xpcs.end());
-	Xpcs.resize(std::distance(Xpcs.begin(), it));
-	std::sort(Xpcs.begin(), Xpcs.end());
-	Xpcs.erase(std::unique(Xpcs.begin(), Xpcs.end()), Xpcs.end());
-	return Xpcs;
-}
 
-//v_inte refine_Xpcs(const v_real& W, const v_real& avgpc, pint min_size, pint max_size) {
-//#ifdef v
-//	std::cout << "refine_Xpcs: min_size=" << min_size << ", max_size" << max_size << "\n";
-//#endif
-//	if (avgpc.size() <= 5) {
-//		std::cout << "Average Pseudo Cycle waveform size <= 5";
-//		throw std::invalid_argument("Average Pseudo Cycle waveform size <= 5");
-//	}
-//	boost::math::interpolators::cardinal_cubic_b_spline<real> spline(avgpc.begin(), avgpc.end(), 0, 1.0 / avgpc.size());
-//	v_real Wpadded(W.size() + 2 * min_size, 0.0);
-//	for (pint i = min_size; i < W.size() + min_size; i++) {
-//		Wpadded[i] = W[i - min_size];
-//	}
-//	pint best_size{ 0 };
-//	inte best_x0{ 0 };
-//	real best_val{ 0.0 };
-//	real curr_val{ 0.0 };
-//	real step{ 0.0 };
-//	real amp{0.0};
-//	v_inte Xpc;
-//	std::vector<v_real> interps(max_size - min_size + 1, v_real(max_size + 1));
-//	for (pint size = min_size; size <= max_size; size++) {
-//		step = 1.0 / real(size);
-//		for (pint x0 = 1; x0 < min_size; x0++) {
-//			curr_val = 0.0;
-//			//amp = std::abs(*std::max_element(Wpadded.begin() + x0, Wpadded.begin() + x0 + size, abs_compare));
-//			for (pint i = 0; i <= size; i++) {
-//				interps[size - min_size][i] = spline(i * step);
-//				curr_val += Wpadded[x0 + i] * interps[size - min_size][i];// / amp;
-//
-//			}
-//			if (curr_val > best_val) {
-//				best_val = curr_val;
-//				best_x0 = x0;
-//				best_size = size;
-//			}
-//		}
-//	}
-//	Xpc.push_back(best_x0 - inte(min_size));
-//	inte curr_x0{ best_x0 + inte(best_size) };
-//	Xpc.push_back(curr_x0 - inte(min_size));
-//
-//#ifdef v
-//	std::cout << "refine_Xpcs: before while loop\n";
-//#endif
-//	while (curr_x0 + max_size - min_size < W.size()) {
-//		best_val = 0.0;
-//		for (pint size = min_size; size <= max_size; size++) {
-//			curr_val = 0.0;
-//			//amp = std::abs(*std::max_element(Wpadded.begin() + curr_x0, Wpadded.begin() + curr_x0 + size, abs_compare));
-//			for (pint i = 0; i <= size; i++) {
-//				curr_val += Wpadded[curr_x0 + i] * interps[size - min_size][i];
-//			}
-//			if (curr_val >= best_val) {
-//				best_val = curr_val;
-//				best_size = size;
-//			}
-//		}
-//		curr_x0 += best_size;
-//#ifdef v
-//		std::cout << "c:" << curr_x0 << " ";
-//#endif
-//		Xpc.push_back(curr_x0 - inte(min_size));
-//	}
-//#ifdef v
-//	assert(Xpc[1] >= 0);
-//#endif
-//	return Xpc;
-//}
-
-//real error(const v_real& W1, const v_real& W2) {
-//
-//	real err{ 0.0 };
-//	inte n = std::min(W1.size(), W2.size());
-//	for (pint i = 0; i < n; i++) {
-//		err += std::abs(W1[i] - W2[i]);
-//	}
-//	return err / n;
-//}
 
 
 

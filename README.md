@@ -10,9 +10,9 @@ A number of test wav files can be found at the /test_samples folder.
 
 # Documentation
 
-## C++
+## [C++](https://tesserato.github.io/envelope/html/index.html)
 
-## Python
+## [Python](https://pypi.org/project/signal-envelope/)
 
 
 # Used Libraries

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['point_3',['point',['../structpoint.html',1,'']]],
-  ['pulse_4',['pulse',['../structpulse.html',1,'']]]
+  ['point_20',['point',['../structpoint.html',1,'']]],
+  ['pulse_21',['pulse',['../structpulse.html',1,'']]]
 ];

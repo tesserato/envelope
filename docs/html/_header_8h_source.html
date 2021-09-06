@@ -86,437 +86,287 @@ $(document).ready(function(){initNavTree('_header_8h_source.html',''); initResiz
 <div class="title">Header.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;chrono&gt;</span> </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;sndfile.hh&gt;</span> <span class="comment">// Wav in and out</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;mkl_dfti.h&quot;</span> <span class="comment">// Intel MKL</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;tuple&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;boost/math/interpolators/cardinal_cubic_b_spline.hpp&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;filesystem&gt;</span> <span class="comment">// to list all files in a directory</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span> pint;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>          inte;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">double</span>             real;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">typedef</span> std::vector&lt;pint&gt; v_pint;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">typedef</span> std::vector&lt;inte&gt; v_inte;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">typedef</span> std::vector&lt;real&gt; v_real;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">const</span> real PI = 3.14159265358979323846;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keywordtype">void</span> write_vector(<span class="keyword">const</span> std::vector&lt;T&gt;&amp; V, std::string path = <span class="stringliteral">&quot;teste.csv&quot;</span>) {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    std::ofstream out(path);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">for</span> (pint i = 0; i &lt; V.size() - 1; ++i) {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        out &lt;&lt; V[i] &lt;&lt; <span class="stringliteral">&quot;,&quot;</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    out &lt;&lt; V.back();</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    out.close();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> abs_compare(real a, real b) {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> (std::abs(a) &lt; std::abs(b));</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="structpoint.html">   41</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structpoint.html">point</a> {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    real x;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    real y;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
+<a href="_header_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;chrono&gt;</span> </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;tuple&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;boost/math/interpolators/cardinal_cubic_b_spline.hpp&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;filesystem&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;sndfile.hh&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;mkl_dfti.h&quot;</span> </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">   24</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a>  ;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">   25</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>          <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a>  ;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">   26</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">double</span>             <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a>  ;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">   27</a></span>&#160;<span class="keyword">typedef</span> std::vector&lt;pint&gt; <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a> ;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="_header_8h.html#a26a81bc986bf77da68ee2f6f1cde7f5d">   28</a></span>&#160;<span class="keyword">typedef</span> std::vector&lt;inte&gt; <a class="code" href="_header_8h.html#a26a81bc986bf77da68ee2f6f1cde7f5d">v_inte</a> ;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">   29</a></span>&#160;<span class="keyword">typedef</span> std::vector&lt;real&gt; <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a> ;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="_header_8h.html#aefae22756f099085ff43e88e9585f895">   33</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keywordtype">void</span> <a class="code" href="_header_8h.html#aefae22756f099085ff43e88e9585f895">write_vector</a>(</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">const</span> std::vector&lt;T&gt;&amp; V , </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::string path = <span class="stringliteral">&quot;test.csv&quot;</span> </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;) </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    std::ofstream out(path);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 0; i &lt; V.size() - 1; ++i) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        out &lt;&lt; V[i] &lt;&lt; <span class="stringliteral">&quot;,&quot;</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    out &lt;&lt; V.back();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    out.close();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="structpulse.html">   46</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structpulse.html">pulse</a> {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    pint start;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    pint end;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="structpulse.html">pulse</a>(inte s, inte e) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">if</span> (s &lt; 0) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;negative start for Pulse\n&quot;</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">if</span> (e &lt; 0) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;negative end for Pulse\n&quot;</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        start = s;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        end = e;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="class_wav.html">   61</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_wav.html">Wav</a> {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    pint fps;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    v_real W;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="class_wav.html">Wav</a>(v_real W_, pint fps_=44100) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        fps = fps_;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        W = W_;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;New wave with n=&quot;</span> &lt;&lt; W.size() &lt;&lt; <span class="stringliteral">&quot; and fps=&quot;</span> &lt;&lt; fps &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> write(std::string path = <span class="stringliteral">&quot;test.wav&quot;</span>) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">if</span> (W.size() == 0) {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;size = 0&quot;</span>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* fname = path.c_str();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        SF_INFO sfinfo;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        sfinfo.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        sfinfo.channels = 1;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        sfinfo.samplerate = fps;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        SNDFILE* outfile = sf_open(fname, SFM_WRITE, &amp;sfinfo);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        sf_write_double(outfile, &amp;W[0], W.size());</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        sf_close(outfile);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Wave file written. path=&quot;</span> &lt;&lt; path &lt;&lt; <span class="stringliteral">&quot;, fps=&quot;</span> &lt;&lt; fps &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keywordtype">void</span> smooth_XPCs(v_inte&amp; Xp) {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    v_real T(Xp.size() - 1);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">for</span> (pint i = 0; i &lt; Xp.size() - 1; i++) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        T[i] = Xp[i + 1] - Xp[i];</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">/* Configure a Descriptor */</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    std::vector&lt;std::complex&lt;double&gt;&gt; out(T.size() / 2 + 1);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">   48</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> <a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(T val ) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> (T(0) &lt; val) - (val &lt; T(0));</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="_header_8h.html#a65fd7dc2c026fcccef6017a9ade0eba4">   53</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> <a class="code" href="_header_8h.html#a65fd7dc2c026fcccef6017a9ade0eba4">argabsmax</a>(</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">const</span> std::vector&lt;T&gt;&amp; V ,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">const</span> <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> x0 ,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">const</span> <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> x1 </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;) </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> max{ std::abs(V[x0]) };</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> idx = x0;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = x0; i &lt; x1; i++) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> (std::abs(V[i]) &gt; max) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            max = std::abs(V[i]);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            idx = i;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> idx ;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="structpoint.html">   71</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structpoint.html">point</a> {</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="structpoint.html#a09a1cd2a5685e11a1afe789034b1e7ce">   72</a></span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> <a class="code" href="structpoint.html#a09a1cd2a5685e11a1afe789034b1e7ce">x</a> ;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="structpoint.html#af0aeda495b0d365bb5cda1c50c469dbc">   73</a></span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> <a class="code" href="structpoint.html#af0aeda495b0d365bb5cda1c50c469dbc">y</a> ;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="structpulse.html">   81</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structpulse.html">pulse</a> {</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="structpulse.html#a24991f58585972c387cdc1c8836cdebe">   82</a></span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> <a class="code" href="structpulse.html#a24991f58585972c387cdc1c8836cdebe">start</a> ;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="structpulse.html#a0fa9b8f5cc564a914c5fad4bed3b5f40">   83</a></span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> <a class="code" href="structpulse.html#a0fa9b8f5cc564a914c5fad4bed3b5f40">end</a> ;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="structpulse.html#a406c4918ea28ad6aee4f577df9366f2f">   85</a></span>&#160;    <a class="code" href="structpulse.html#a406c4918ea28ad6aee4f577df9366f2f">pulse</a>(</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> s , </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> e </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    ) </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">if</span> (s &lt; 0) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;negative start for Pulse\n&quot;</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">if</span> (e &lt; 0) {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;negative end for Pulse\n&quot;</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <a class="code" href="structpulse.html#a24991f58585972c387cdc1c8836cdebe">start</a> = s;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <a class="code" href="structpulse.html#a0fa9b8f5cc564a914c5fad4bed3b5f40">end</a> = e;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">//write_vector(in, &quot;00before.csv&quot;);</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    DFTI_DESCRIPTOR_HANDLE hand;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    MKL_LONG status;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    status = DftiCreateDescriptor(&amp;hand, DFTI_DOUBLE, DFTI_REAL, 1, T.size());</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    status = DftiSetValue(hand, DFTI_PLACEMENT, DFTI_NOT_INPLACE);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    status = DftiSetValue(hand, DFTI_CONJUGATE_EVEN_STORAGE, DFTI_COMPLEX_COMPLEX);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    status = DftiSetValue(hand, DFTI_BACKWARD_SCALE, 1.0f / T.size());</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">//status = DftiSetValue(hand, DFTI_PACKED_FORMAT, DFTI_CCE_FORMAT);</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="comment">//status = DftiSetValue(hand, DFTI_INPUT_STRIDES, &lt;real_strides&gt;);</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">//status = DftiSetValue(hand, DFTI_OUTPUT_STRIDES,&lt;complex_strides&gt;);</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    status = DftiCommitDescriptor(hand);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">/* Compute an FFT */</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    status = DftiComputeForward(hand, T.data(), out.data());</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">float</span> avg{ 0.0 };</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; out.size(); i++) {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        avg += std::abs(out[i]);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    avg = avg / out.size();</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">float</span> dev{ 0.0 };</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; out.size(); i++) {</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        dev += std::abs(std::abs(out[i]) - avg);</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    }</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    dev = dev / out.size();</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; out.size(); i++) {</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">if</span> (std::abs(out[i]) &lt;= avg) {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            out[i] = { 0.0,0.0 };</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="comment">/* Compute an inverse FFT */</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="comment">//std::fill(in.begin(), in.end(), 0.0);</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    status = DftiComputeBackward(hand, out.data(), T.data());</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    DftiFreeDescriptor(&amp;hand);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">//write_vector(in, &quot;01after.csv&quot;);</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordflow">for</span> (pint i = 0; i &lt; Xp.size() - 1; i++) {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        Xp[i + 1] = Xp[i] + std::round(T[i]);</div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="class_wav.html">  103</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_wav.html">Wav</a> {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> fps;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a> W;</div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="class_wav.html#abf44c0bdf81fa61c59c69eedb7e3541e">  108</a></span>&#160;    <a class="code" href="class_wav.html#abf44c0bdf81fa61c59c69eedb7e3541e">Wav</a>(<a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a> W_ ,</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> fps_=44100 ) {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        fps = fps_ ;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        W = W_ ;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;New wave with n=&quot;</span> &lt;&lt; W.size() &lt;&lt; <span class="stringliteral">&quot; and fps=&quot;</span> &lt;&lt; fps &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="class_wav.html#a9e85af7a7ae05f34c87c811869d0ee3d">  115</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_wav.html#a9e85af7a7ae05f34c87c811869d0ee3d">write</a>(std::string path = <span class="stringliteral">&quot;test.wav&quot;</span> ) {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">if</span> (W.size() == 0) {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;size = 0&quot;</span>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* fname = path.c_str();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        SF_INFO sfinfo;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        sfinfo.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        sfinfo.channels = 1;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        sfinfo.samplerate = fps;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        SNDFILE* outfile = sf_open(fname, SFM_WRITE, &amp;sfinfo);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        sf_write_double(outfile, &amp;W[0], W.size());</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        sf_close(outfile);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Wave file written. path=&quot;</span> &lt;&lt; path &lt;&lt; <span class="stringliteral">&quot;, fps=&quot;</span> &lt;&lt; fps &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;};</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="_header_8h.html#ac44c474f06f78cb92f7b9f488fd863e9">  135</a></span>&#160;<a class="code" href="class_wav.html">Wav</a> <a class="code" href="_header_8h.html#ac44c474f06f78cb92f7b9f488fd863e9">read_wav</a>(std::string path ) {</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* fname = path.c_str();</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    SF_INFO sfinfo;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    sfinfo.format = 0;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    SNDFILE* test = sf_open(fname, SFM_READ, &amp;sfinfo);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">if</span> (test == NULL) {</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Couldn&#39;t open file at:&quot;</span> &lt;&lt; fname;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span> &lt;&lt; sf_strerror(test);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        sf_close(test);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        exit(1);</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    }</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;}</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    sf_close(test);</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<a class="code" href="class_wav.html">Wav</a> read_wav(std::string path) {</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* fname = path.c_str();</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    SF_INFO sfinfo;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    sfinfo.format = 0;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    SNDFILE* test = sf_open(fname, SFM_READ, &amp;sfinfo);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    SndfileHandle file = SndfileHandle(fname);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">if</span> (file.channels() != 1) {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Unexpected number of channels:&quot;</span> &lt;&lt; file.channels();</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        exit(1);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    }</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">if</span> (test == NULL) {</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Couldn&#39;t open file at:&quot;</span> &lt;&lt; fname;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span> &lt;&lt; sf_strerror(test);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        sf_close(test);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        exit(1);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    }</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    sf_close(test);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    SndfileHandle file = SndfileHandle(fname);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> fps = file.samplerate();</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> n = file.frames();</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Successfully opened file at:&quot;</span> &lt;&lt; path &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a> W(n);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    file.read(&amp;W[0], n);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_wav.html">Wav</a>(W, fps) ;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;};</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">if</span> (file.channels() != 1) {</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Unexpected number of channels:&quot;</span> &lt;&lt; file.channels();</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        exit(1);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> fps = file.samplerate();</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> n = file.frames();</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Successfully opened file at:&quot;</span> &lt;&lt; path &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    v_real W(n);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    file.read(&amp;W[0], n);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_wav.html">Wav</a>(W, fps);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;};</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<a class="code" href="structpoint.html">point</a> get_circle(real x0, real y0, real x1, real y1, real r) {</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    real q{ sqrt(pow(x1 - x0, 2.0) + pow(y1 - y0, 2.0)) };</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    real c{ sqrt(r * r - pow(q / 2.0, 2.0)) };</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    real x3{ (x0 + x1) / 2.0 };</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    real y3{ (y0 + y1) / 2.0 };</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    real xc, yc;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">if</span> (y0 + y1 &gt;= 0) {</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        xc = x3 + c * (y0 - y1) / q;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        yc = y3 + c * (x1 - x0) / q;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    }</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        xc = x3 - c * (y0 - y1) / q;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        yc = y3 - c * (x1 - x0) / q;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    }</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordflow">return</span> { xc, yc };</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;}</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; inte sgn(T val) {</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordflow">return</span> (T(0) &lt; val) - (val &lt; T(0));</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;inte argabsmax(<span class="keyword">const</span> v_real&amp; V, <span class="keyword">const</span> inte x0, <span class="keyword">const</span> inte x1) {</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    real max{ std::abs(V[x0]) };</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    inte idx = x0;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keywordflow">for</span> (pint i = x0; i &lt; x1; i++) {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <span class="keywordflow">if</span> (std::abs(V[i]) &gt; max) {</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            max = std::abs(V[i]);</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            idx = i;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        }</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    }</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordflow">return</span> idx;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;}</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;inte argmax(<span class="keyword">const</span> v_real&amp; V, <span class="keyword">const</span> inte x0, <span class="keyword">const</span> inte x1) {</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    real max{ std::abs(V[x0]) };</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    inte idx = x0;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordflow">for</span> (pint i = x0; i &lt;= x1; i++) {</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordflow">if</span> (V[i] &gt; max) {</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            max = V[i];</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            idx = i;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        }</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    }</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordflow">return</span> idx;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;}</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;inte argmin(<span class="keyword">const</span> v_real&amp; V, <span class="keyword">const</span> inte x0, <span class="keyword">const</span> inte x1) {</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    real min{ std::abs(V[x0]) };</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    inte idx = x0;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="keywordflow">for</span> (pint i = x0; i &lt;= x1; i++) {</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keywordflow">if</span> (V[i] &lt; min) {</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            min = V[i];</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            idx = i;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        }</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    }</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keywordflow">return</span> idx;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;}</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;v_pint find_zeroes(<span class="keyword">const</span> v_real&amp; W) {</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    inte sign{ sgn(W[0]) };</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    v_pint id_of_zeroes;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">for</span> (pint i = 0; i &lt; W.size(); i++) {</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">if</span> (sgn(W[i]) != sign) {</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            id_of_zeroes.push_back(i);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            sign = sgn(W[i]);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        }</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    }</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordflow">return</span> id_of_zeroes;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;}</div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">  167</a></span>&#160;<a class="code" href="structpoint.html">point</a>  <a class="code" href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">get_circle</a>(</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> x0 ,</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> y0 ,</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> x1 ,</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> y1 ,</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> r </div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;) </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;{</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> q{ sqrt(pow(x1 - x0, 2.0) + pow(y1 - y0, 2.0)) };</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> c{ sqrt(r * r - pow(q / 2.0, 2.0)) };</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> x3{ (x0 + x1) / 2.0 };</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> y3{ (y0 + y1) / 2.0 };</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> xc, yc;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordflow">if</span> (y0 + y1 &gt;= 0) {</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        xc = x3 + c * (y0 - y1) / q;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        yc = y3 + c * (x1 - x0) / q;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    }</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        xc = x3 - c * (y0 - y1) / q;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        yc = y3 - c * (x1 - x0) / q;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    }</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordflow">return</span> { xc, yc } ;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="keywordtype">void</span> get_pulses(<span class="keyword">const</span> <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a>&amp; W, <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a>&amp; posX, <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a>&amp; negX) {</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> n{ W.size() };</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> sign{ <a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[0]) };</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> i0{ 0 };</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <a class="code" href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a> im{ 0 };</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    posX.clear();</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    negX.clear();</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 1; i &lt; W.size(); i++) {</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[i]) != sign) {</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            sign = <a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[i]);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            <span class="keywordflow">if</span> (i - i0 &gt; 4) {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                im = <a class="code" href="_header_8h.html#a65fd7dc2c026fcccef6017a9ade0eba4">argabsmax</a>(W, i0, i);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                i0 = i;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a>(W[im]) &gt;= 0) {</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                    posX.push_back(im);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                }</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                    negX.push_back(im);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                }</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            }</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        }</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    }   <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;}</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a> get_frontier(<span class="keyword">const</span> <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a>&amp; W, <span class="keyword">const</span> <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a>&amp; X) {</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> n{ X.size() };</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> sumY{ 0.0 };</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> sumY_vec{ W[X[n-1]] - W[X[0]] };</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> sumX_vec{ X[n-1] - X[0] };</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 0; i &lt; n; i++) {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        sumY += W[X[i]];</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    }</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> scaling{ (sumX_vec / 2.0) / sumY };</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> sumk{ 0.0 };</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> x;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> y;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <a class="code" href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a> Y(n);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    Y[0] = W[X[0]] * scaling;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = 1; i &lt; n; i++) {</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        Y[i] = W[X[i]] * scaling;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        x = X[i] - X[i - 1];</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        y = Y[i] - Y[i - 1];</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        sumk += y / (x * sqrt(x * x + y * y));</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    }</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> r{ 1.0 / (sumk / (n - 1)) };</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <a class="code" href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a> rr{ r * r };</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> idx1{ 0 };</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> idx2{ 1 };</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <a class="code" href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a> frontierX = { X[0] };</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <a class="code" href="structpoint.html">point</a> pc;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordtype">bool</span> empty;</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="keywordtype">void</span> get_pulses(<span class="keyword">const</span> v_real&amp; W, v_pint&amp; posX, v_pint&amp; negX) {</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    pint n{ W.size() };</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    inte sign{ sgn(W[0]) };</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    inte i0{ 0 };</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    inte im{ 0 };</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    posX.clear();</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    negX.clear();</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keywordflow">for</span> (pint i = 1; i &lt; W.size(); i++) {</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="keywordflow">if</span> (sgn(W[i]) != sign) {</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            sign = sgn(W[i]);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="keywordflow">if</span> (i - i0 &gt; 4) {</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                im = argabsmax(W, i0, i);</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                i0 = i;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                <span class="keywordflow">if</span> (sgn(W[im]) &gt;= 0) {</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                    posX.push_back(im);</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                }</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                    negX.push_back(im);</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                }</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            }</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        }</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    }   <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;}</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;v_pint get_frontier(<span class="keyword">const</span> v_real&amp; W, <span class="keyword">const</span> v_pint&amp; X) {</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="preprocessor">#ifdef v</span></div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;inside get_frontier\n&quot;</span>;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    pint n{ X.size() };</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    real sumY{ 0.0 };</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    real sumY_vec{ W[X[n-1]] - W[X[0]] };</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    pint sumX_vec{ X[n-1] - X[0] };</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160; </div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <span class="keywordflow">for</span> (pint i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        sumY += W[X[i]];</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    }</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    real scaling{ (sumX_vec / 2.0) / sumY };</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    real sumk{ 0.0 };</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    real x;</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    real y;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160; </div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    v_real Y(n);</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    Y[0] = W[X[0]] * scaling;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keywordflow">for</span> (pint i = 1; i &lt; n; i++) {</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        Y[i] = W[X[i]] * scaling;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        x = X[i] - X[i - 1];</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        y = Y[i] - Y[i - 1];</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        sumk += y / (x * sqrt(x * x + y * y));</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    }</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    real r{ 1.0 / (sumk / (n - 1)) };</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    real rr{ r * r };</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    pint idx1{ 0 };</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    pint idx2{ 1 };</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    v_pint frontierX = { X[0] };</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <a class="code" href="structpoint.html">point</a> pc;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordtype">bool</span> empty;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160; </div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <span class="keywordflow">while</span> (idx2 &lt; n) {</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        pc = get_circle(X[idx1], Y[idx1], X[idx2], Y[idx2], r);</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        empty = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="keywordflow">for</span> (pint i = idx2 + 1; i &lt; n; i++) {</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            <span class="keywordflow">if</span> (pow(pc.x - X[i], 2.0) + pow(pc.y - Y[i], 2.0) &lt; rr) {</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                empty = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                idx2 ++;</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            }</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        }</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        <span class="keywordflow">if</span> (empty) {</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            frontierX.push_back(X[idx2]);</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;            idx1 = idx2;</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            idx2 ++;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        }</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    }</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="keywordflow">return</span> frontierX;</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;}</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;v_inte get_Xpcs(<span class="keyword">const</span> v_pint&amp; Xpos, <span class="keyword">const</span> v_pint&amp; Xneg) {</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    pint min_id{ std::min(Xpos.size(),Xneg.size()) };</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    v_inte Xpcs(min_id);</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="keywordflow">for</span> (pint i = 0; i &lt; min_id; i++)   {</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        Xpcs[i] = std::round((real(Xpos[i]) + real(Xneg[i])) / 2);</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    }</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    v_inte::iterator it = std::unique(Xpcs.begin(), Xpcs.end());</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    Xpcs.resize(std::distance(Xpcs.begin(), it));</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    std::sort(Xpcs.begin(), Xpcs.end());</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    Xpcs.erase(std::unique(Xpcs.begin(), Xpcs.end()), Xpcs.end());</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    <span class="keywordflow">return</span> Xpcs;</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;}</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">//v_inte refine_Xpcs(const v_real&amp; W, const v_real&amp; avgpc, pint min_size, pint max_size) {</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">//#ifdef v</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">//  std::cout &lt;&lt; &quot;refine_Xpcs: min_size=&quot; &lt;&lt; min_size &lt;&lt; &quot;, max_size&quot; &lt;&lt; max_size &lt;&lt; &quot;\n&quot;;</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">//#endif</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment">//  if (avgpc.size() &lt;= 5) {</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment">//      std::cout &lt;&lt; &quot;Average Pseudo Cycle waveform size &lt;= 5&quot;;</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">//      throw std::invalid_argument(&quot;Average Pseudo Cycle waveform size &lt;= 5&quot;);</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">//  boost::math::interpolators::cardinal_cubic_b_spline&lt;real&gt; spline(avgpc.begin(), avgpc.end(), 0, 1.0 / avgpc.size());</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">//  v_real Wpadded(W.size() + 2 * min_size, 0.0);</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">//  for (pint i = min_size; i &lt; W.size() + min_size; i++) {</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment">//      Wpadded[i] = W[i - min_size];</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment">//  pint best_size{ 0 };</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment">//  inte best_x0{ 0 };</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment">//  real best_val{ 0.0 };</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment">//  real curr_val{ 0.0 };</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">//  real step{ 0.0 };</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment">//  real amp{0.0};</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment">//  v_inte Xpc;</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">//  std::vector&lt;v_real&gt; interps(max_size - min_size + 1, v_real(max_size + 1));</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment">//  for (pint size = min_size; size &lt;= max_size; size++) {</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment">//      step = 1.0 / real(size);</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment">//      for (pint x0 = 1; x0 &lt; min_size; x0++) {</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment">//          curr_val = 0.0;</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment">//          //amp = std::abs(*std::max_element(Wpadded.begin() + x0, Wpadded.begin() + x0 + size, abs_compare));</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment">//          for (pint i = 0; i &lt;= size; i++) {</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment">//              interps[size - min_size][i] = spline(i * step);</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="comment">//              curr_val += Wpadded[x0 + i] * interps[size - min_size][i];// / amp;</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">//          }</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment">//          if (curr_val &gt; best_val) {</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment">//              best_val = curr_val;</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment">//              best_x0 = x0;</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="comment">//              best_size = size;</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment">//          }</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment">//  Xpc.push_back(best_x0 - inte(min_size));</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="comment">//  inte curr_x0{ best_x0 + inte(best_size) };</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="comment">//  Xpc.push_back(curr_x0 - inte(min_size));</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment">//#ifdef v</span></div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment">//  std::cout &lt;&lt; &quot;refine_Xpcs: before while loop\n&quot;;</span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment">//#endif</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment">//  while (curr_x0 + max_size - min_size &lt; W.size()) {</span></div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment">//      best_val = 0.0;</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment">//      for (pint size = min_size; size &lt;= max_size; size++) {</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="comment">//          curr_val = 0.0;</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment">//          //amp = std::abs(*std::max_element(Wpadded.begin() + curr_x0, Wpadded.begin() + curr_x0 + size, abs_compare));</span></div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment">//          for (pint i = 0; i &lt;= size; i++) {</span></div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;<span class="comment">//              curr_val += Wpadded[curr_x0 + i] * interps[size - min_size][i];</span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment">//          }</span></div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;<span class="comment">//          if (curr_val &gt;= best_val) {</span></div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="comment">//              best_val = curr_val;</span></div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="comment">//              best_size = size;</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="comment">//          }</span></div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;<span class="comment">//      curr_x0 += best_size;</span></div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="comment">//#ifdef v</span></div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;<span class="comment">//      std::cout &lt;&lt; &quot;c:&quot; &lt;&lt; curr_x0 &lt;&lt; &quot; &quot;;</span></div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;<span class="comment">//#endif</span></div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="comment">//      Xpc.push_back(curr_x0 - inte(min_size));</span></div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="comment">//#ifdef v</span></div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;<span class="comment">//  assert(Xpc[1] &gt;= 0);</span></div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="comment">//#endif</span></div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;<span class="comment">//  return Xpc;</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="comment">//real error(const v_real&amp; W1, const v_real&amp; W2) {</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="comment">//  real err{ 0.0 };</span></div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<span class="comment">//  inte n = std::min(W1.size(), W2.size());</span></div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;<span class="comment">//  for (pint i = 0; i &lt; n; i++) {</span></div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;<span class="comment">//      err += std::abs(W1[i] - W2[i]);</span></div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<span class="comment">//  return err / n;</span></div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160; </div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160; </div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160; </div>
-<div class="ttc" id="aclass_wav_html"><div class="ttname"><a href="class_wav.html">Wav</a></div><div class="ttdef"><b>Definition:</b> Header.h:61</div></div>
-<div class="ttc" id="astructpoint_html"><div class="ttname"><a href="structpoint.html">point</a></div><div class="ttdef"><b>Definition:</b> Header.h:41</div></div>
-<div class="ttc" id="astructpulse_html"><div class="ttname"><a href="structpulse.html">pulse</a></div><div class="ttdef"><b>Definition:</b> Header.h:46</div></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordflow">while</span> (idx2 &lt; n) {</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        pc = <a class="code" href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">get_circle</a>(X[idx1], Y[idx1], X[idx2], Y[idx2], r);</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        empty = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordflow">for</span> (<a class="code" href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a> i = idx2 + 1; i &lt; n; i++) {</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <span class="keywordflow">if</span> (pow(pc.<a class="code" href="structpoint.html#a09a1cd2a5685e11a1afe789034b1e7ce">x</a> - X[i], 2.0) + pow(pc.<a class="code" href="structpoint.html#af0aeda495b0d365bb5cda1c50c469dbc">y</a> - Y[i], 2.0) &lt; rr) {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                empty = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                idx2 ++;</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            }</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        }</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <span class="keywordflow">if</span> (empty) {</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            frontierX.push_back(X[idx2]);</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            idx1 = idx2;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            idx2 ++;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        }</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    }</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keywordflow">return</span> frontierX;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;}</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
+<div class="ttc" id="a_header_8h_html_a11d147c64891830c9e79b3315b1b2e21"><div class="ttname"><a href="_header_8h.html#a11d147c64891830c9e79b3315b1b2e21">real</a></div><div class="ttdeci">double real</div><div class="ttdoc">A real number.</div><div class="ttdef"><b>Definition:</b> Header.h:26</div></div>
+<div class="ttc" id="a_header_8h_html_a209911f99b130b2d42ba33449a426ae1"><div class="ttname"><a href="_header_8h.html#a209911f99b130b2d42ba33449a426ae1">inte</a></div><div class="ttdeci">long long inte</div><div class="ttdoc">An integer.</div><div class="ttdef"><b>Definition:</b> Header.h:25</div></div>
+<div class="ttc" id="a_header_8h_html_a26a81bc986bf77da68ee2f6f1cde7f5d"><div class="ttname"><a href="_header_8h.html#a26a81bc986bf77da68ee2f6f1cde7f5d">v_inte</a></div><div class="ttdeci">std::vector&lt; inte &gt; v_inte</div><div class="ttdoc">A vector of integers.</div><div class="ttdef"><b>Definition:</b> Header.h:28</div></div>
+<div class="ttc" id="a_header_8h_html_a65fd7dc2c026fcccef6017a9ade0eba4"><div class="ttname"><a href="_header_8h.html#a65fd7dc2c026fcccef6017a9ade0eba4">argabsmax</a></div><div class="ttdeci">inte argabsmax(const std::vector&lt; T &gt; &amp;V, const inte x0, const inte x1)</div><div class="ttdoc">Given a vector, returns the index of its maximum absolute value between two indices.</div><div class="ttdef"><b>Definition:</b> Header.h:53</div></div>
+<div class="ttc" id="a_header_8h_html_ab054962df1e562f0f5f04a297a7f0f8a"><div class="ttname"><a href="_header_8h.html#ab054962df1e562f0f5f04a297a7f0f8a">sgn</a></div><div class="ttdeci">inte sgn(T val)</div><div class="ttdoc">Returns the sign of a number.</div><div class="ttdef"><b>Definition:</b> Header.h:48</div></div>
+<div class="ttc" id="a_header_8h_html_abace61a8f9b56aa0e3cae388a288476b"><div class="ttname"><a href="_header_8h.html#abace61a8f9b56aa0e3cae388a288476b">get_circle</a></div><div class="ttdeci">point get_circle(real x0, real y0, real x1, real y1, real r)</div><div class="ttdoc">Given the coordinates of two points and a radius, returns the center of the circle that passes throug...</div><div class="ttdef"><b>Definition:</b> Header.h:167</div></div>
+<div class="ttc" id="a_header_8h_html_ac44c474f06f78cb92f7b9f488fd863e9"><div class="ttname"><a href="_header_8h.html#ac44c474f06f78cb92f7b9f488fd863e9">read_wav</a></div><div class="ttdeci">Wav read_wav(std::string path)</div><div class="ttdoc">Reads a mono WAV file from disk, returning a Wav object.</div><div class="ttdef"><b>Definition:</b> Header.h:135</div></div>
+<div class="ttc" id="a_header_8h_html_ac4ab9d05039d1e3fdc5898d0702f41c5"><div class="ttname"><a href="_header_8h.html#ac4ab9d05039d1e3fdc5898d0702f41c5">v_pint</a></div><div class="ttdeci">std::vector&lt; pint &gt; v_pint</div><div class="ttdoc">A vector of positive integers.</div><div class="ttdef"><b>Definition:</b> Header.h:27</div></div>
+<div class="ttc" id="a_header_8h_html_ae2def07779b3bbe9faf8b475157494a8"><div class="ttname"><a href="_header_8h.html#ae2def07779b3bbe9faf8b475157494a8">v_real</a></div><div class="ttdeci">std::vector&lt; real &gt; v_real</div><div class="ttdoc">A vector of real numbers.</div><div class="ttdef"><b>Definition:</b> Header.h:29</div></div>
+<div class="ttc" id="a_header_8h_html_aefae22756f099085ff43e88e9585f895"><div class="ttname"><a href="_header_8h.html#aefae22756f099085ff43e88e9585f895">write_vector</a></div><div class="ttdeci">void write_vector(const std::vector&lt; T &gt; &amp;V, std::string path=&quot;test.csv&quot;)</div><div class="ttdoc">Writes a vector to disk as a CSV file.</div><div class="ttdef"><b>Definition:</b> Header.h:33</div></div>
+<div class="ttc" id="a_header_8h_html_afb6ce80928a76deda165ab86f6d1aab9"><div class="ttname"><a href="_header_8h.html#afb6ce80928a76deda165ab86f6d1aab9">pint</a></div><div class="ttdeci">unsigned long long pint</div><div class="ttdoc">A positive integer.</div><div class="ttdef"><b>Definition:</b> Header.h:24</div></div>
+<div class="ttc" id="aclass_wav_html"><div class="ttname"><a href="class_wav.html">Wav</a></div><div class="ttdoc">This class represents a mono WAV file.</div><div class="ttdef"><b>Definition:</b> Header.h:103</div></div>
+<div class="ttc" id="aclass_wav_html_a9e85af7a7ae05f34c87c811869d0ee3d"><div class="ttname"><a href="class_wav.html#a9e85af7a7ae05f34c87c811869d0ee3d">Wav::write</a></div><div class="ttdeci">void write(std::string path=&quot;test.wav&quot;)</div><div class="ttdoc">Writes the Wav object to disk, as a mono WAV file.</div><div class="ttdef"><b>Definition:</b> Header.h:115</div></div>
+<div class="ttc" id="aclass_wav_html_abf44c0bdf81fa61c59c69eedb7e3541e"><div class="ttname"><a href="class_wav.html#abf44c0bdf81fa61c59c69eedb7e3541e">Wav::Wav</a></div><div class="ttdeci">Wav(v_real W_, pint fps_=44100)</div><div class="ttdoc">Constructor to manually create a WAV file.</div><div class="ttdef"><b>Definition:</b> Header.h:108</div></div>
+<div class="ttc" id="astructpoint_html"><div class="ttname"><a href="structpoint.html">point</a></div><div class="ttdoc">Simple struct to represent the x and y coordinates of a point.</div><div class="ttdef"><b>Definition:</b> Header.h:71</div></div>
+<div class="ttc" id="astructpoint_html_a09a1cd2a5685e11a1afe789034b1e7ce"><div class="ttname"><a href="structpoint.html#a09a1cd2a5685e11a1afe789034b1e7ce">point::x</a></div><div class="ttdeci">real x</div><div class="ttdoc">x coordinate</div><div class="ttdef"><b>Definition:</b> Header.h:72</div></div>
+<div class="ttc" id="astructpoint_html_af0aeda495b0d365bb5cda1c50c469dbc"><div class="ttname"><a href="structpoint.html#af0aeda495b0d365bb5cda1c50c469dbc">point::y</a></div><div class="ttdeci">real y</div><div class="ttdoc">y coordinate</div><div class="ttdef"><b>Definition:</b> Header.h:73</div></div>
+<div class="ttc" id="astructpulse_html"><div class="ttname"><a href="structpulse.html">pulse</a></div><div class="ttdoc">Represents the start and end indices of a pulse in a signal.</div><div class="ttdef"><b>Definition:</b> Header.h:81</div></div>
+<div class="ttc" id="astructpulse_html_a0fa9b8f5cc564a914c5fad4bed3b5f40"><div class="ttname"><a href="structpulse.html#a0fa9b8f5cc564a914c5fad4bed3b5f40">pulse::end</a></div><div class="ttdeci">pint end</div><div class="ttdoc">Index where the pulse ends.</div><div class="ttdef"><b>Definition:</b> Header.h:83</div></div>
+<div class="ttc" id="astructpulse_html_a24991f58585972c387cdc1c8836cdebe"><div class="ttname"><a href="structpulse.html#a24991f58585972c387cdc1c8836cdebe">pulse::start</a></div><div class="ttdeci">pint start</div><div class="ttdoc">Index where the pulse starts.</div><div class="ttdef"><b>Definition:</b> Header.h:82</div></div>
+<div class="ttc" id="astructpulse_html_a406c4918ea28ad6aee4f577df9366f2f"><div class="ttname"><a href="structpulse.html#a406c4918ea28ad6aee4f577df9366f2f">pulse::pulse</a></div><div class="ttdeci">pulse(inte s, inte e)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> Header.h:85</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Header.h</b></li>
+    <li class="navelem"><a class="el" href="_header_8h.html">Header.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>

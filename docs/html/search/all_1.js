@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wav_2',['Wav',['../class_wav.html',1,'']]]
+  ['end_1',['end',['../structpulse.html#a0fa9b8f5cc564a914c5fad4bed3b5f40',1,'pulse']]]
 ];

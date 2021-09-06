@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['point_0',['point',['../structpoint.html',1,'']]],
-  ['pulse_1',['pulse',['../structpulse.html',1,'']]]
+  ['argabsmax_0',['argabsmax',['../_header_8h.html#a65fd7dc2c026fcccef6017a9ade0eba4',1,'Header.h']]]
 ];
