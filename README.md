@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/297107471.svg)](https://zenodo.org/badge/latestdoi/297107471)
+
 # Quickstart
 Module to extract the envelope of signals.
 
