@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/297107471.svg)](https://zenodo.org/badge/latestdoi/297107471)
 # Envelope
 Python module to extract the envelope of signals.
 

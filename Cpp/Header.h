@@ -169,10 +169,9 @@ point get_circle(
 void get_pulses(
 	const v_real& W /** Vector representing the signal. **/	,
 	v_pint& posX /** Vector to be filled with the positive indices. **/,
-	v_pint& negX /** Vector to be filled with the negative indices. **/
-) 
+	v_pint& negX /** Vector to be filled with the negative indices. **/) 
 {
-	pint n{ W.size() };
+	//pint n{ W.size() };
 	inte sign{ sgn(W[0]) };
 	inte i0{ 0 };
 	inte im{ 0 };
@@ -203,13 +202,13 @@ v_pint get_frontier(
 {
 	pint n{ X.size() };
 	real sumY{ 0.0 };
-	real sumY_vec{ W[X[n-1]] - W[X[0]] };
-	pint sumX_vec{ X[n-1] - X[0] };
+	//real sumY_vec{ W[X[n-1]] - W[X[0]] };
+	//pint sumX_vec{ X[n-1] - X[0] };
 
 	for (pint i = 0; i < n; i++) {
 		sumY += W[X[i]];
 	}
-	real scaling{ (sumX_vec / 2.0) / sumY };
+	real scaling{ (real(X[n - 1] - X[0]) / 2.0) / sumY };
 	real sumk{ 0.0 };
 	real x;
 	real y;

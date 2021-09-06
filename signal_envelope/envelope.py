@@ -5,7 +5,7 @@ import numpy as np
 import ctypes
 
 def read_wav(path):
-  """returns signal & fps"""
+  '''Reads a mono WAV file from disk, returning a signal as a NumPy array and fps'''
   wav = wave.open(path , 'r')
   signal = np.frombuffer(wav.readframes(-1) , np.int16).astype(np.double)
   fps = wav.getframerate()
@@ -26,7 +26,7 @@ def save_wav(signal, name = 'test.wav', fps = 44100):
 ###############################
 
 def _get_circle(x0, y0, x1, y1, r):
-  '''returns center of circle that passes through two points'''  
+  '''Given the coordinates of two points and a radius, returns the center of the circle that passes through the points and possesses the given radius.'''
   q = np.sqrt((x1 - x0)**2 + (y1 - y0)**2)
   c = np.sqrt(r * r - (q / 2)**2)
   x3 = (x0 + x1) / 2
@@ -41,35 +41,25 @@ def _get_circle(x0, y0, x1, y1, r):
   return xc, yc
 
 def _get_pulses(W):
-  '''Sorts a signal into pulses, returning positive and negative X, Y coordinates, and filtering out noise'''
-  n = W.size
+  '''Given a vector, returns the indices of the absolute maximum values of the positive and negative pulses.'''
   sign = np.sign(W[0])
-  x = 1
-  while np.sign(W[x]) == sign:
-    x += 1
-  x0 = x + 1
-  sign = np.sign(W[x0])
   posX = []
-  # posY = []
   negX = []
-  # negY = []
-  for x in range(x0, n):
+  x0 = 0
+  for x in range(1, W.size):
     if np.sign(W[x]) != sign: # Prospective pulse
-      if x - x0 > 2:          # Not noise
+      sign = np.sign(W[x])
+      if x - x0 > 4:          # Not noise        
         xp = x0 + np.argmax(np.abs(W[x0 : x]))
-        yp = W[xp]
-        if np.sign(yp) >= 0:
+        x0 = x
+        if np.sign(W[xp]) >= 0:
           posX.append(xp)
-          # posY.append(yp)
         else:
           negX.append(xp)
-          # negY.append(yp)
-      x0 = x
-      sign = np.sign(W[x])
-  # return np.array(posX), np.array(posY), np.array(negX), np.array(negY)
   return np.array(posX), np.array(negX)
 
 def _get_average_radius(X, Y):
+  '''Gets the average radius of pulses described by X, Y'''
   k_sum = 0
   for i in range(len(X) - 1):
     x = (X[i + 1] - X[i])
@@ -80,9 +70,8 @@ def _get_average_radius(X, Y):
   return r
 
 def _get_envelope(X, Y):
-  '''extracts the frontier via snowball method'''
-  scaling = (np.sum(X[1:] - X[:-1]) / 2) / np.sum(Y)
-  # scaling = ((X[-1] - X[0]) / (2 * (len(X) - 1))) / np.average(Y)
+  '''Extracts the envelope of pulses described by X, Y'''
+  scaling = ((X[-1] - X[0]) / 2) / np.sum(Y)
   Y = Y * scaling
   
   r = _get_average_radius(X, Y)
@@ -106,13 +95,13 @@ def _get_envelope(X, Y):
   return envelope_X
 
 def get_frontiers_py(W, mode=0):
-  "If mode == 0: Returns positive and negative indices frontiers of a signal"
-  "If mode == 1: Returns indices of the envelope of a signal"
+  '''If mode == 0: Returns positive and negative indices frontiers of a signal
+  If mode == 1: Returns indices of the envelope of a signal'''
   PosX, NegX = _get_pulses(W)
   if PosX.size == 0 or NegX.size == 0:
     print("Error: nonperiodic signal, no pulses found")
     return
-  if mode == 0:    
+  if mode == 0:
     PosFrontierX = _get_envelope(PosX, W[PosX])
     NegFrontierX = _get_envelope(NegX, W[NegX])
     return PosFrontierX, NegFrontierX
@@ -126,6 +115,7 @@ def get_frontiers_py(W, mode=0):
 ###############################
 
 def get_frontiers_cpp(W, mode=0):
+  '''Uses the functions exposed by the DLL to extract the envelope of a Wav file faster '''
   if mode == 0: # Frontiers mode
     result = lib.compute_raw_envelope(W.ctypes.data_as(ctypes.POINTER(ctypes.c_float)), ctypes.c_size_t(W.size), ctypes.
     c_size_t(mode))
