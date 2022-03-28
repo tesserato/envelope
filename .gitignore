@@ -20,3 +20,4 @@ executable.zip
 executable/envelope.exe
 signal_envelope/envelope.dll
 release.zip
+*.ini
