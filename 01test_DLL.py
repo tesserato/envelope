@@ -1,4 +1,4 @@
-# Tests the Dll in the signal_envelope folder
+"""Tests the Dll in the signal_envelope folder"""
 import numpy as np
 import plotly.graph_objects as go
 
@@ -6,7 +6,7 @@ from signal_envelope import read_wav, get_frontiers
 
 W, _ = read_wav("test_samples/alto.wav")
 
-Xpos, Xneg = get_frontiers(W, 0)
+Xpos, Xneg = get_frontiers(W)
 
 E = get_frontiers(W, 1)
 

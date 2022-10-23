@@ -9,10 +9,11 @@ test_int = 5
 cppmode = True
 
 try:
-    dir = os.path.dirname(sys.modules["signal_envelope"].__file__)
-    path = os.path.join(dir, "envelope.dll")
+    directory = os.path.dirname(sys.modules["signal_envelope"].__file__)
+    path = os.path.join(directory, "envelope.dll")
 except:
     print("Could not resolve path to 'envelope.dll'")
+    cppmode = False
 
 try:
     lib = ctypes.CDLL(path)

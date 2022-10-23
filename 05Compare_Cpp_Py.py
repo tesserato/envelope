@@ -1,4 +1,4 @@
-'''To be used AFTER signal_envelope is installed via pip'''
+"""To be used AFTER signal_envelope is installed via pip"""
 import sys
 
 sys.path.append("signal_envelope/")
