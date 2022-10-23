@@ -1,4 +1,4 @@
-
+import pathlib
 from os import listdir
 
 import numpy as np
@@ -21,7 +21,7 @@ for file in listdir("test_samples"):
     E = se.get_frontiers(W, 1)
 
     ext = (np.abs(W[E])[0], np.abs(W[E])[-1])
-    f = interpolate.interp1d(E, np.abs(W[E]), kind="linear", fill_value=ext, bounds_error=False)
+    f = interpolate.interp1d(E, np.abs(W[E]), fill_value=ext, bounds_error=False)
     E = f(X)
 
     for i in range(E.size):
@@ -135,7 +135,8 @@ for file in listdir("test_samples"):
         )
     )
 
-    fig.write_html(f"site/{name}.html", full_html=True, include_mathjax="cdn", include_plotlyjs="cdn")
-    fig.write_image(f"site/{name}.svg", width=1000, height=400, engine="kaleido", format="svg")
+    base_path = pathlib.Path(__file__).parent.parent.absolute()
+    fig.write_html(base_path / f"site/{name}.html", full_html=True, include_mathjax="cdn", include_plotlyjs="cdn")
+    fig.write_image(base_path / f"site/{name}.svg", width=1000, height=400, engine="kaleido", format="svg")
 
 # fig.show(config=dict({'scrollZoom': True}))

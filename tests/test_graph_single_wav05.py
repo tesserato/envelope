@@ -1,10 +1,12 @@
+"""Graph single wav file."""
 import numpy as np
 import plotly.graph_objects as go
+
 import signal_envelope as se
 
-W, _ = se.read_wav("../test_samples/alto.wav")
+W, _ = se.read_wav("test_samples/alto.wav")
 
-Xpos, Xneg = se.get_frontiers(W, 0)
+Xpos, Xneg = se.get_frontiers(W)
 
 E = se.get_frontiers(W, 1)
 
