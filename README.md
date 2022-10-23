@@ -29,6 +29,8 @@ the [source code](https://github.com/tesserato/envelope/blob/master/signal_envel
 
 Usage information can be found [here](https://pypi.org/project/signal-envelope/).
 
+Python implementation is accelerated via [Numba](https://pypi.org/project/numba/).
+
 # Used Libraries
 
 [Libsndfile](http://www.mega-nerd.com/libsndfile/)

@@ -1,9 +1,12 @@
-"""signal-envelope"""
+"""Main functions."""
 import ctypes
 import wave
+from typing import Union, Tuple
 
 import numpy as np
+from numba import jit
 
+Envelope_None = np.array([-1], dtype=np.int64)
 
 def read_wav(path):
     """Reads a mono WAV file from disk, returning a signal as a NumPy array and fps"""
@@ -27,6 +30,7 @@ def save_wav(signal, name='test.wav', fps=44100):
 #    Python implementation    #
 ###############################
 
+@jit()
 def _get_circle(x0, y0, x1, y1, r):
     """Given the coordinates of two points and a radius, returns the center of the circle that passes through the points and possesses the given radius."""
     q = np.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
@@ -43,7 +47,8 @@ def _get_circle(x0, y0, x1, y1, r):
     return xc, yc
 
 
-def _get_pulses(W):
+@jit()
+def _get_pulses(W, minPeriod=4):
     """Given a vector, returns the indices of the absolute maximum values of the positive and negative pulses."""
     sign = np.sign(W[0])
     posX = []
@@ -52,7 +57,7 @@ def _get_pulses(W):
     for x in range(1, W.size):
         if np.sign(W[x]) != sign:  # Prospective pulse
             sign = np.sign(W[x])
-            if x - x0 > 4:  # Not noise
+            if x - x0 > minPeriod:  # Not noise
                 xp = x0 + np.argmax(np.abs(W[x0: x]))
                 x0 = x
                 if np.sign(W[xp]) >= 0:
@@ -62,6 +67,7 @@ def _get_pulses(W):
     return np.array(posX), np.array(negX)
 
 
+@jit()
 def _get_average_radius(X, Y):
     """Gets the average radius of pulses described by X, Y"""
     k_sum = 0
@@ -74,12 +80,13 @@ def _get_average_radius(X, Y):
     return r
 
 
-def _get_envelope(X, Y):
+@jit()
+def _get_envelope(X, Y, scaleRadiusBy=1.0):
     """Extracts the envelope of pulses described by X, Y"""
     scaling = ((X[-1] - X[0]) / 2) / np.sum(Y)
     Y = Y * scaling
 
-    r = _get_average_radius(X, Y)
+    r = _get_average_radius(X, Y) * scaleRadiusBy
     id1 = 0
     id2 = 1
     envelope_X = [X[0]]
@@ -100,20 +107,31 @@ def _get_envelope(X, Y):
     return envelope_X
 
 
-def get_frontiers_py(W, mode=0):
-    """If mode == 0: Returns positive and negative indices frontiers of a signal
-    If mode == 1: Returns indices of the envelope of a signal"""
-    PosX, NegX = _get_pulses(W)
+def get_frontiers_py(W: np.ndarray, mode: int = 0, minPeriod: int = 0,
+                     scaleRadiusBy: float = 1.0, use_numba: bool = True) -> Union[Tuple[np.ndarray, np.ndarray], np.ndarray, None]:
+    """
+    Use this function to get the envelope of a discrete signal
+    :param W: the signal
+    :param mode: If mode == 0: Returns positive and negative indices frontiers of a signal.
+                 If mode == 1: Returns indices of the envelope of a signal
+    :param minPeriod: Ignores pulses with length < minPeriod
+    :param scaleRadiusBy: The radius of the circle used to determine the envelope is scaled by scaleRadiusBy
+    :return: If mode == 0: Returns positive and negative indices frontiers of a signal.
+             If mode == 1: Returns indices of the envelope of a signal
+
+    Note: This function is not faster with numba, and numba doesn't support Union of return types.
+    """
+    PosX, NegX = _get_pulses(W, minPeriod) if use_numba else _get_pulses.py_func(W, minPeriod)
     if PosX.size == 0 or NegX.size == 0:
         print("Error: nonperiodic signal, no pulses found")
         return
     if mode == 0:
-        PosFrontierX = _get_envelope(PosX, W[PosX])
-        NegFrontierX = _get_envelope(NegX, W[NegX])
+        PosFrontierX = _get_envelope(PosX, W[PosX], scaleRadiusBy) if use_numba else _get_envelope.py_func(PosX, W[PosX], scaleRadiusBy)
+        NegFrontierX = _get_envelope(NegX, W[NegX], scaleRadiusBy) if use_numba else _get_envelope.py_func(NegX, W[NegX], scaleRadiusBy)
         return PosFrontierX, NegFrontierX
     else:
-        X = np.unique(np.hstack([PosX, NegX]))
-        FrontierX = _get_envelope(X, np.abs(W[X]))
+        X = np.unique(np.hstack((PosX, NegX)))
+        FrontierX = _get_envelope(X, np.abs(W[X]), scaleRadiusBy) if use_numba else _get_envelope.py_func(X, np.abs(W[X]), scaleRadiusBy)
         return FrontierX
 
 

@@ -32,5 +32,5 @@ if cppmode:
     builtins.lib = lib
     from .envelope import get_frontiers_cpp as get_frontiers
 else:
-    print("Running in Python mode (Slower)")
+    print("Running in Python mode (with Numba)")
     from .envelope import get_frontiers_py as get_frontiers
