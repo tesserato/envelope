@@ -1,4 +1,4 @@
-var searchData=
-[
-  ['wav_34',['Wav',['../class_wav.html',1,'']]]
-];
+var searchData =
+    [
+        ['wav_34', ['Wav', ['../class_wav.html', 1, '']]]
+    ];

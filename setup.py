@@ -1,4 +1,5 @@
 import pathlib
+
 from setuptools import setup
 
 # The directory containing this file
@@ -17,7 +18,7 @@ setup(
     url="https://github.com/tesserato/envelope",
     author="Carlos Tarjano",
     author_email="tesserato@hotmail.com",
-    license="MIT", # <| <| <| <|
+    license="MIT",  # <| <| <| <|
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
