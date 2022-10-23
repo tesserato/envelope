@@ -1,5 +1,7 @@
 [![DOI](https://zenodo.org/badge/297107471.svg)](https://zenodo.org/badge/latestdoi/297107471)
+
 # Envelope
+
 Python module to extract the envelope of signals.
 
 More information at [Github](https://github.com/tesserato/envelope);
@@ -10,28 +12,34 @@ Interactive visualization [here](https://envelope.netlify.app/).
 
 This module implements 3 functions:
 
+## **read_wav("path/to/mono/signal.wav")**,
 
-## **read_wav("path/to/mono/signal.wav")**, 
+Returns a tuple `(W, fps)`, where W is a numpy array and `fps` is an integer with the value of the frame rate of the
+file.
 
-Returns a tuple `(W, fps)`, where W is a numpy array and `fps` is an integer with the value of the frame rate of the file.
-
-
-## **save_wav(signal, path = "test.wav", fps = 44100)**, 
+## **save_wav(signal, path = "test.wav", fps = 44100)**,
 
 Saves a NumPy array as a .wav file.
-
 
 ## **get_frontiers(W, mode=0)**,
 
 ### When mode=0:
-Returns a tuple `(pos_ids, neg_ids)` of NumPy arrays, with the indices of the positive and negative frontiers of a NumPy array representing a discrete wave `W`.
+
+Returns a tuple `(pos_ids, neg_ids)` of NumPy arrays, with the indices of the positive and negative frontiers of a NumPy
+array representing a discrete wave `W`.
 
 ### When mode=1:
-Returns the NumPy array `X_envelope` with the indices of the envelope of the wave `W`. Note that, to obtain the values of the envelope at those points, `np.abs(W[X_envelope])` is recommended.
 
-If this function is called from a compatible setup (currently, Windows 64bit), it computes the envelope and the frontiers faster via specialized native code. A fall-back version in pure Python is also provided, in which case a warning is printed indicating that a slower mode is being used. In both cases, the usage is the same, as are the results.
+Returns the NumPy array `X_envelope` with the indices of the envelope of the wave `W`. Note that, to obtain the values
+of the envelope at those points, `np.abs(W[X_envelope])` is recommended.
+
+If this function is called from a compatible setup (currently, Windows 64bit), it computes the envelope and the
+frontiers faster via specialized native code. A fall-back version in pure Python is also provided, in which case a
+warning is printed indicating that a slower mode is being used. In both cases, the usage is the same, as are the
+results.
 
 # Usage
+
 install the module: `pip install signal-envelope`
 
 A minimal example would then be:
@@ -45,9 +53,11 @@ A minimal example would then be:
     X_envelope = se.get_frontiers(W, 1)
     print(X_envelope, np.abs(W[X_envelope]))
 
-A number of test wav files can be found at the [Github](https://github.com/tesserato/envelope) repository for the project.
+A number of test wav files can be found at the [Github](https://github.com/tesserato/envelope) repository for the
+project.
 
 # Source
+
 The code for this repository is available at [Github](https://github.com/tesserato/envelope).
 
 # Used Libraries

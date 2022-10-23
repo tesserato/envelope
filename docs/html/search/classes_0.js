@@ -1,4 +1,4 @@
-var searchData=
-[
-  ['point_33',['point',['../structpoint.html',1,'']]]
-];
+var searchData =
+    [
+        ['point_33', ['point', ['../structpoint.html', 1, '']]]
+    ];

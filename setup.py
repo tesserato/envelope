@@ -1,4 +1,5 @@
 import pathlib
+
 from setuptools import setup
 
 # The directory containing this file
@@ -17,7 +18,7 @@ setup(
     url="https://github.com/tesserato/envelope",
     author="Carlos Tarjano",
     author_email="tesserato@hotmail.com",
-    license="MIT", # <| <| <| <|
+    license="MIT",  # <| <| <| <|
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
@@ -27,7 +28,7 @@ setup(
     package_data={'signal-envelope': ['signal_envelope/*.dll']},
     # package_data={"dlls": ["..\signal_envelope\DLL.dll", "..\signal_envelope\libsndfile-1.dll"]},
     # data_files=[("", "\DLL.dll"), ("","\libsndfile-1.dll")],
-    install_requires=["numpy"],
+    install_requires=["numpy", "numba"],
     # entry_points={
     #     "console_scripts": [
     #         "realpython=reader.__main__:main",

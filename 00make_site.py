@@ -1,3 +1,4 @@
+""""""
 from os import walk
 
 upper_body = ''' 
@@ -15,9 +16,7 @@ upper_body = '''
 <a href="https://arxiv.org/abs/2009.02860">arXiv Paper</a>
 '''
 
-
-
-lower_body='''
+lower_body = '''
 </body>
 </html>
 '''
@@ -29,12 +28,12 @@ html = ""
 html += upper_body
 
 for fn in filenames:
-  if fn != "index.html":
-    file = open("./site/" + fn, "r")
-    html += f"<h2>{fn.replace('.html', '')}</h2>\n"
-    html += file.read()
-    print(fn)
-    file.close()
+    if fn != "index.html":
+        file = open("./site/" + fn, "r")
+        html += f"<h2>{fn.replace('.html', '')}</h2>\n"
+        html += file.read()
+        print(fn)
+        file.close()
 
 html += lower_body
 
