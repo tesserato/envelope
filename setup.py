@@ -28,7 +28,7 @@ setup(
     package_data={'signal-envelope': ['signal_envelope/*.dll']},
     # package_data={"dlls": ["..\signal_envelope\DLL.dll", "..\signal_envelope\libsndfile-1.dll"]},
     # data_files=[("", "\DLL.dll"), ("","\libsndfile-1.dll")],
-    install_requires=["numpy"],
+    install_requires=["numpy", "numba"],
     # entry_points={
     #     "console_scripts": [
     #         "realpython=reader.__main__:main",
